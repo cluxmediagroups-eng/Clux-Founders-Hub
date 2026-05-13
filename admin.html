@@ -16,7 +16,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var(--white);display:flex;flex-direction:column;}
-
+ 
 /* ── LOGIN WALL ── */
 #login-wall{position:fixed;inset:0;background:var(--ink2);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;}
 #login-wall.hidden{display:none;}
@@ -31,11 +31,11 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var
 .login-btn{width:100%;background:linear-gradient(135deg,var(--m),var(--o));border:none;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:13px;cursor:pointer;border-radius:2px;transition:all .2s;}
 .login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(232,23,93,.3);}
 .login-err{font-size:12px;color:var(--m);margin-top:10px;display:none;}
-
+ 
 /* ── APP SHELL ── */
 #app{display:flex;height:100%;overflow:hidden;}
 #app.hidden{display:none;}
-
+ 
 /* ── SIDEBAR ── */
 .sidebar{width:var(--sidebar);background:var(--ink3);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;flex-shrink:0;height:100%;overflow-y:auto;}
 .sb-brand{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.06);}
@@ -52,10 +52,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var
 .sb-footer{padding:16px;border-top:1px solid rgba(255,255,255,.06);}
 .logout-btn{width:100%;background:none;border:1px solid rgba(255,255,255,.1);color:var(--grey);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:8px;cursor:pointer;border-radius:2px;transition:all .2s;}
 .logout-btn:hover{border-color:var(--m);color:var(--m);}
-
+ 
 /* ── MAIN AREA ── */
 .main{flex:1;display:flex;flex-direction:column;height:100%;overflow:hidden;}
-
+ 
 /* ── TOPBAR ── */
 .main-topbar{background:var(--ink3);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .topbar-title{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:#fff;}
@@ -63,14 +63,14 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var
 .tb-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:7px 14px;cursor:pointer;border-radius:2px;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .tb-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
 .tb-btn.primary{background:linear-gradient(135deg,var(--m),var(--o));border:none;color:#fff;font-weight:600;}
-
+ 
 /* ── CONTENT SCROLL ── */
 .main-content{flex:1;overflow-y:auto;padding:24px;}
-
+ 
 /* ── VIEWS ── */
 .view{display:none;}
 .view.active{display:block;}
-
+ 
 /* ── STAT CARDS ── */
 .stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
 .stat-card{background:var(--ink3);border:1px solid rgba(255,255,255,.06);padding:20px;position:relative;overflow:hidden;border-radius:2px;}
@@ -88,7 +88,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var
 .stat-card:nth-child(4) .sc-val{color:var(--o);}
 .stat-card:nth-child(5) .sc-val{color:var(--grey);}
 .sc-sub{font-size:11px;color:var(--grey);}
-
+ 
 /* ── FILTER BAR ── */
 .filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
 .filter-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;cursor:pointer;border-radius:2px;transition:all .2s;}
@@ -97,7 +97,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var
 .search-box{margin-left:auto;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;padding:7px 12px;border-radius:2px;outline:none;width:220px;transition:border-color .2s;}
 .search-box:focus{border-color:var(--m);}
 .search-box::placeholder{color:var(--grey);}
-
+ 
 /* ── TABLE ── */
 .table-wrap{background:var(--ink3);border:1px solid rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
 .table-scroll{overflow-x:auto;}
@@ -110,7 +110,7 @@ tbody tr:last-child{border-bottom:none;}
 tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .empty-state{text-align:center;padding:60px 20px;color:var(--grey);font-size:14px;}
 .empty-state .es-icon{font-size:36px;margin-bottom:12px;}
-
+ 
 /* ── BADGES ── */
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:500;white-space:nowrap;}
 .badge-accept{background:rgba(57,181,74,.15);color:var(--g);border:1px solid rgba(57,181,74,.25);}
@@ -118,13 +118,13 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .badge-waitlist{background:rgba(247,148,29,.15);color:var(--o);border:1px solid rgba(247,148,29,.25);}
 .badge-decline{background:rgba(232,23,93,.12);color:var(--m);border:1px solid rgba(232,23,93,.2);}
 .badge-autodecline{background:rgba(100,0,30,.3);color:#FF6B9D;border:1px solid rgba(232,23,93,.3);}
-
+ 
 /* Score bar */
 .score-bar-wrap{display:flex;align-items:center;gap:8px;}
 .score-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;min-width:32px;}
 .score-bar{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;min-width:60px;}
 .score-fill{height:100%;border-radius:3px;transition:width .4s;}
-
+ 
 /* ── DETAIL PANEL ── */
 .detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;align-items:stretch;justify-content:flex-end;}
 .detail-overlay.open{display:flex;}
@@ -134,7 +134,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .dp-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--grey);width:32px;height:32px;cursor:pointer;border-radius:2px;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
 .dp-close:hover{border-color:var(--m);color:var(--m);}
 .dp-body{padding:24px;flex:1;}
-
+ 
 /* Score summary */
 .score-summary{background:var(--ink3);border:1px solid rgba(255,255,255,.08);padding:20px;margin-bottom:20px;border-radius:2px;}
 .ss-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06);}
@@ -144,12 +144,12 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .ss-item{background:rgba(0,0,0,.2);padding:10px 12px;border-radius:2px;}
 .ss-item-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;}
 .ss-item-val{font-family:'Fraunces',serif;font-size:20px;font-weight:700;}
-
+ 
 /* Flags */
 .flags-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
 .flag-chip{background:rgba(247,148,29,.1);border:1px solid rgba(247,148,29,.2);color:var(--o);padding:3px 8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;border-radius:2px;}
 .no-flags{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g);letter-spacing:1px;}
-
+ 
 /* Detail sections */
 .dp-section{margin-bottom:20px;}
 .dp-section-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--m);padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:12px;}
@@ -158,7 +158,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .dp-field-val{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;}
 .dp-field-val.long{font-size:12.5px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.2);padding:10px 12px;border-radius:2px;border-left:2px solid rgba(255,255,255,.08);}
 .dp-tag{display:inline-block;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:2px;font-size:11px;color:rgba(255,255,255,.6);margin:2px;}
-
+ 
 /* Decision buttons */
 .decision-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
 .dec-btn{flex:1;padding:10px 8px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s;min-width:80px;}
@@ -167,7 +167,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .dec-waitlist{background:var(--o);color:var(--ink);}
 .dec-decline{background:var(--m);color:#fff;}
 .dec-btn:hover{transform:translateY(-1px);filter:brightness(1.1);}
-
+ 
 /* ── ANALYTICS VIEW ── */
 .analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
 .chart-card{background:var(--ink3);border:1px solid rgba(255,255,255,.06);padding:20px;border-radius:2px;}
@@ -178,7 +178,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 .bc-bar-wrap{flex:1;background:rgba(255,255,255,.06);height:20px;border-radius:2px;overflow:hidden;}
 .bc-bar{height:100%;border-radius:2px;transition:width .6s;display:flex;align-items:center;padding-left:8px;}
 .bc-bar-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.8);}
-
+ 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
   .sidebar{width:180px;}
@@ -192,7 +192,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
 </style>
 </head>
 <body>
-
+ 
 <!-- LOGIN WALL -->
 <div id="login-wall">
   <div class="login-box">
@@ -206,10 +206,10 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
     <div class="login-err" id="login-err">Incorrect credentials. Try again.</div>
   </div>
 </div>
-
+ 
 <!-- APP -->
 <div id="app" class="hidden">
-
+ 
   <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sb-brand">
@@ -223,6 +223,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
       <div class="sb-section">Main</div>
       <div class="sb-item active" onclick="showView('applications',this)"><span class="icon">📋</span> Applications</div>
       <div class="sb-item" onclick="showView('analytics',this)"><span class="icon">📊</span> Analytics</div>
+      <div class="sb-item" onclick="showView('traffic',this)"><span class="icon">👁</span> Page Traffic</div>
       <div class="sb-section">Decisions</div>
       <div class="sb-item" onclick="filterByDecision('ACCEPT')"><span class="icon">✅</span> Accepted</div>
       <div class="sb-item" onclick="filterByDecision('SHORTLIST')"><span class="icon">🔵</span> Shortlisted</div>
@@ -233,7 +234,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
       <button class="logout-btn" onclick="doLogout()">Log Out</button>
     </div>
   </div>
-
+ 
   <!-- MAIN -->
   <div class="main">
     <div class="main-topbar">
@@ -244,12 +245,12 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
         <button class="tb-btn primary" onclick="clearFilter()">Show All</button>
       </div>
     </div>
-
+ 
     <div class="main-content">
-
+ 
       <!-- ── APPLICATIONS VIEW ── -->
       <div class="view active" id="view-applications">
-
+ 
         <!-- Stats -->
         <div class="stats-row" id="stats-row">
           <div class="stat-card"><div class="sc-label">Total Applications</div><div class="sc-val" id="st-total">0</div><div class="sc-sub">All submissions</div></div>
@@ -258,7 +259,31 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
           <div class="stat-card"><div class="sc-label">Waitlist</div><div class="sc-val" id="st-wait">0</div><div class="sc-sub">Score 50–64</div></div>
           <div class="stat-card"><div class="sc-label">Declined</div><div class="sc-val" id="st-dec">0</div><div class="sc-sub">Below 50 / Ethics fail</div></div>
         </div>
-
+ 
+        <!-- Traffic Stats Row -->
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr); margin-top:-8px;">
+          <div class="stat-card" style="border-top:3px solid var(--b);">
+            <div class="sc-label">Landing Page Views</div>
+            <div class="sc-val" style="color:var(--b);" id="st-views">0</div>
+            <div class="sc-sub">Total unique sessions</div>
+          </div>
+          <div class="stat-card" style="border-top:3px solid var(--p);">
+            <div class="sc-label">Views Today</div>
+            <div class="sc-val" style="color:var(--p);" id="st-views-today">0</div>
+            <div class="sc-sub">Since midnight</div>
+          </div>
+          <div class="stat-card" style="border-top:3px solid var(--y);">
+            <div class="sc-label">View → Application Rate</div>
+            <div class="sc-val" style="color:var(--y);" id="st-conv">0%</div>
+            <div class="sc-sub">Views that applied</div>
+          </div>
+          <div class="stat-card" style="border-top:3px solid var(--g);">
+            <div class="sc-label">Top Traffic Source</div>
+            <div class="sc-val" style="font-size:18px;color:var(--g);margin-top:4px;" id="st-topsource">—</div>
+            <div class="sc-sub">Most common source</div>
+          </div>
+        </div>
+ 
         <!-- Filters -->
         <div class="filter-bar">
           <button class="filter-btn active" onclick="setFilter('ALL',this)">All</button>
@@ -269,7 +294,7 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
           <button class="filter-btn" onclick="setFilter('AUTO-DECLINE',this)">Auto-Decline</button>
           <input class="search-box" type="text" placeholder="Search name, business, industry..." oninput="searchTable(this.value)" id="search-input">
         </div>
-
+ 
         <!-- Table -->
         <div class="table-wrap">
           <div class="table-scroll">
@@ -296,9 +321,9 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
             <div style="font-size:12px;color:var(--grey);margin-top:6px;">Submissions from the screening form will appear here.</div>
           </div>
         </div>
-
+ 
       </div><!-- /applications view -->
-
+ 
       <!-- ── ANALYTICS VIEW ── -->
       <div class="view" id="view-analytics">
         <div class="analytics-grid">
@@ -323,13 +348,79 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
           <div class="chart-title">Score Range Distribution</div>
           <div class="bar-chart" id="chart-scores"></div>
         </div>
-      </div>
-
+      </div><!-- /view-analytics -->
+ 
+      <!-- ── TRAFFIC VIEW ── -->
+      <div class="view" id="view-traffic">
+ 
+        <div class="stats-row" style="grid-template-columns:repeat(4,1fr);margin-bottom:24px;">
+          <div class="stat-card" style="border-bottom:3px solid var(--b);">
+            <div class="sc-label">Total Page Views</div>
+            <div class="sc-val" style="color:var(--b);" id="tr-total">0</div>
+            <div class="sc-sub">All recorded sessions</div>
+          </div>
+          <div class="stat-card" style="border-bottom:3px solid var(--p);">
+            <div class="sc-label">Views Today</div>
+            <div class="sc-val" style="color:var(--p);" id="tr-today">0</div>
+            <div class="sc-sub">Since midnight</div>
+          </div>
+          <div class="stat-card" style="border-bottom:3px solid var(--o);">
+            <div class="sc-label">Views This Week</div>
+            <div class="sc-val" style="color:var(--o);" id="tr-week">0</div>
+            <div class="sc-sub">Last 7 days</div>
+          </div>
+          <div class="stat-card" style="border-bottom:3px solid var(--y);">
+            <div class="sc-label">Conversion Rate</div>
+            <div class="sc-val" style="color:var(--y);" id="tr-conv">0%</div>
+            <div class="sc-sub">Views that applied</div>
+          </div>
+        </div>
+ 
+        <div class="analytics-grid">
+          <div class="chart-card">
+            <div class="chart-title">Traffic by Source</div>
+            <div class="bar-chart" id="tr-chart-source"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Daily Views — Last 14 Days</div>
+            <div class="bar-chart" id="tr-chart-daily"></div>
+          </div>
+        </div>
+ 
+        <!-- Views log table -->
+        <div class="table-wrap" style="margin-top:16px;">
+          <div style="padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);">Page Views Log — Most Recent First</span>
+            <button class="tb-btn" onclick="clearTrafficData()" style="font-size:11px;color:var(--m);border-color:rgba(232,23,93,.3);">Clear Traffic Data</button>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date & Time</th>
+                  <th>Source</th>
+                  <th>Medium</th>
+                  <th>UTM Ref</th>
+                </tr>
+              </thead>
+              <tbody id="tr-table-body"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="tr-empty">
+            <div class="es-icon">👁</div>
+            <div>No page views recorded yet.</div>
+            <div style="font-size:12px;color:var(--grey);margin-top:6px;">Views are tracked when someone visits the landing page. Make sure the updated <strong>index.html</strong> (with the tracker script) is live on GitHub.</div>
+          </div>
+        </div>
+ 
+      </div><!-- /view-traffic -->
+ 
     </div><!-- /main-content -->
   </div><!-- /main -->
-
+ 
 </div><!-- /app -->
-
+ 
 <!-- DETAIL PANEL -->
 <div class="detail-overlay" id="detail-overlay" onclick="if(event.target===this)closeDetail()">
   <div class="detail-panel" id="detail-panel">
@@ -340,13 +431,13 @@ tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
     <div class="dp-body" id="dp-body"></div>
   </div>
 </div>
-
+ 
 <script>
 // ══════════════════════════════════════════════════════
 // AUTH — simple password gate (change before deploy)
 // ══════════════════════════════════════════════════════
 const ADMIN_CREDS = { user: 'cfhadmin', pass: 'Clux@2026!' };
-
+ 
 function doLogin() {
   const u = document.getElementById('lg-user').value.trim();
   const p = document.getElementById('lg-pass').value;
@@ -360,42 +451,63 @@ function doLogin() {
     setTimeout(() => err.style.display = 'none', 3000);
   }
 }
-
+ 
 function doLogout() {
   document.getElementById('app').classList.add('hidden');
   document.getElementById('login-wall').classList.remove('hidden');
   document.getElementById('lg-pass').value = '';
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // DATA
 // ══════════════════════════════════════════════════════
 let allSubmissions = [];
+let allViews = [];
 let currentFilter = 'ALL';
-
+ 
 function loadData() {
   allSubmissions = JSON.parse(localStorage.getItem('cfh_submissions') || '[]');
-  // Sort by newest first
   allSubmissions.sort((a,b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+  allViews = JSON.parse(localStorage.getItem('cfh_page_views') || '[]');
+  allViews.sort((a,b) => new Date(b.ts) - new Date(a.ts));
   renderStats();
   renderTable(allSubmissions);
   if (document.getElementById('view-analytics').classList.contains('active')) renderAnalytics();
+  if (document.getElementById('view-traffic').classList.contains('active')) renderTrafficView();
 }
-
+ 
 function refreshData() { loadData(); }
-
+ 
 // ══════════════════════════════════════════════════════
 // STATS
 // ══════════════════════════════════════════════════════
 function renderStats() {
   const s = allSubmissions;
+  const v = allViews;
+ 
+  // Application stats
   document.getElementById('st-total').textContent = s.length;
   document.getElementById('st-accept').textContent = s.filter(x => x.score.decision === 'ACCEPT').length;
   document.getElementById('st-short').textContent = s.filter(x => x.score.decision === 'SHORTLIST').length;
   document.getElementById('st-wait').textContent = s.filter(x => x.score.decision === 'WAITLIST').length;
   document.getElementById('st-dec').textContent = s.filter(x => ['DECLINE','AUTO-DECLINE'].includes(x.score.decision)).length;
+ 
+  // Traffic stats
+  const today = new Date().toDateString();
+  const viewsToday = v.filter(x => new Date(x.ts).toDateString() === today).length;
+  const convRate = v.length > 0 ? Math.round((s.length / v.length) * 100) : 0;
+ 
+  // Top source
+  const sources = {};
+  v.forEach(x => { const src = x.source || 'direct'; sources[src] = (sources[src]||0)+1; });
+  const topSrc = Object.entries(sources).sort((a,b) => b[1]-a[1])[0];
+ 
+  document.getElementById('st-views').textContent = v.length;
+  document.getElementById('st-views-today').textContent = viewsToday;
+  document.getElementById('st-conv').textContent = convRate + '%';
+  document.getElementById('st-topsource').textContent = topSrc ? topSrc[0] : '—';
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // TABLE
 // ══════════════════════════════════════════════════════
@@ -403,25 +515,25 @@ function renderTable(data) {
   const tbody = document.getElementById('table-body');
   const empty = document.getElementById('empty-state');
   tbody.innerHTML = '';
-
+ 
   if (!data.length) {
     empty.classList.remove('hidden');
     return;
   }
   empty.classList.add('hidden');
-
+ 
   data.forEach((sub, idx) => {
     const d = sub.data;
     const sc = sub.score;
     const tr = document.createElement('tr');
     tr.onclick = () => openDetail(sub);
-
+ 
     const scoreColor = sc.total >= 80 ? 'var(--g)' : sc.total >= 65 ? 'var(--b)' : sc.total >= 50 ? 'var(--o)' : 'var(--m)';
     const decBadge = decisionBadge(sc.decision);
     const revLabel = { yes_consistent:'Consistent', yes_occasional:'Occasional', not_yet:'Pre-revenue' };
     const locLabel = { yes_local:'Ajah/Lagos', can_commute:'Nearby', not_local:'Outside area' };
     const date = new Date(sub.submitted_at).toLocaleDateString('en-NG', { day:'2-digit', month:'short' });
-
+ 
     tr.innerHTML = `
       <td><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grey);">${sub.ref || '—'}</span></td>
       <td><strong style="color:#fff;">${esc(d.name || '—')}</strong></td>
@@ -441,7 +553,7 @@ function renderTable(data) {
     tbody.appendChild(tr);
   });
 }
-
+ 
 function decisionBadge(decision) {
   const map = {
     'ACCEPT': '<span class="badge badge-accept">✓ Accept</span>',
@@ -452,14 +564,14 @@ function decisionBadge(decision) {
   };
   return map[decision] || decision;
 }
-
+ 
 function industryLabel(val) {
   const m = { tech:'Tech/Software', realestate:'Real Estate', legal:'Legal', accounting:'Accounting & Tax', logistics:'Logistics', hr:'HR/Consulting', creative:'Creative/Media', ecommerce:'E-commerce', health:'Health & Wellness', finance:'Finance/Fintech', education:'Education', other:'Other' };
   return m[val] || val || '—';
 }
-
+ 
 function esc(s) { return String(s).replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
+ 
 // ══════════════════════════════════════════════════════
 // FILTERS & SEARCH
 // ══════════════════════════════════════════════════════
@@ -469,7 +581,7 @@ function setFilter(decision, btn) {
   btn.classList.add('active');
   applyFilters();
 }
-
+ 
 function filterByDecision(decision) {
   currentFilter = decision;
   showView('applications', document.querySelector('.sb-item'));
@@ -478,16 +590,16 @@ function filterByDecision(decision) {
   });
   applyFilters();
 }
-
+ 
 function clearFilter() {
   currentFilter = 'ALL';
   document.getElementById('search-input').value = '';
   document.querySelectorAll('.filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
   applyFilters();
 }
-
+ 
 function searchTable(q) { applyFilters(q); }
-
+ 
 function applyFilters(q = document.getElementById('search-input').value) {
   let filtered = allSubmissions;
   if (currentFilter !== 'ALL') filtered = filtered.filter(s => s.score.decision === currentFilter);
@@ -503,7 +615,7 @@ function applyFilters(q = document.getElementById('search-input').value) {
   }
   renderTable(filtered);
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // DETAIL PANEL
 // ══════════════════════════════════════════════════════
@@ -512,15 +624,15 @@ function openDetail(sub) {
   const sc = sub.score;
   document.getElementById('dp-title').textContent = esc(d.biz_name || d.name || 'Application Detail');
   document.getElementById('detail-overlay').classList.add('open');
-
+ 
   const scoreColor = sc.total >= 80 ? 'var(--g)' : sc.total >= 65 ? 'var(--b)' : sc.total >= 50 ? 'var(--o)' : 'var(--m)';
-
+ 
   const flagsHtml = sc.flags && sc.flags.length
     ? sc.flags.map(f => `<span class="flag-chip">⚑ ${esc(f)}</span>`).join('')
     : '<span class="no-flags">✓ No flags raised</span>';
-
+ 
   const checks = (arr) => (arr||[]).map(x => `<span class="dp-tag">${esc(x)}</span>`).join('') || '<span style="color:var(--grey);font-size:12px;">None selected</span>';
-
+ 
   document.getElementById('dp-body').innerHTML = `
     <!-- Score Summary -->
     <div class="score-summary">
@@ -545,7 +657,7 @@ function openDetail(sub) {
         <div class="flags-row">${flagsHtml}</div>
       </div>
     </div>
-
+ 
     <!-- Personal -->
     <div class="dp-section">
       <div class="dp-section-title">Personal Details</div>
@@ -555,7 +667,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Role</div><div class="dp-field-val">${esc(d.role||'—')}</div></div>
       <div class="dp-field"><div class="dp-field-label">Source</div><div class="dp-field-val">${esc(d.source||'—')}</div></div>
     </div>
-
+ 
     <!-- Business -->
     <div class="dp-section">
       <div class="dp-section-title">Business Details</div>
@@ -566,7 +678,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Team Size</div><div class="dp-field-val">${esc(d.team_size||'—')}</div></div>
       <div class="dp-field"><div class="dp-field-label">Business Description</div><div class="dp-field-val long">${esc(d.biz_desc||'—')}</div></div>
     </div>
-
+ 
     <!-- Revenue -->
     <div class="dp-section">
       <div class="dp-section-title">Revenue & Operations</div>
@@ -575,7 +687,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Current Challenge</div><div class="dp-field-val long">${esc(d.challenge||'—')}</div></div>
       <div class="dp-field"><div class="dp-field-label">Business Structure</div><div>${checks(d.structure_items)}</div></div>
     </div>
-
+ 
     <!-- Fit -->
     <div class="dp-section">
       <div class="dp-section-title">Ecosystem Fit</div>
@@ -587,7 +699,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Ethics Declaration</div><div class="dp-field-val">${esc(d.ethics||'—')}</div></div>
       <div class="dp-field"><div class="dp-field-label">Prohibited Activity Flags</div><div>${checks(d.prohibited)}</div></div>
     </div>
-
+ 
     <!-- Vision -->
     <div class="dp-section">
       <div class="dp-section-title">Vision & Final</div>
@@ -596,7 +708,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Benefits Most Excited About</div><div>${checks(d.benefits)}</div></div>
       <div class="dp-field"><div class="dp-field-label">Additional Notes</div><div class="dp-field-val long">${esc(d.extra||'Not provided')}</div></div>
     </div>
-
+ 
     <!-- Meta -->
     <div class="dp-section">
       <div class="dp-section-title">Application Meta</div>
@@ -604,7 +716,7 @@ function openDetail(sub) {
       <div class="dp-field"><div class="dp-field-label">Payment Reference</div><div class="dp-field-val" style="font-family:'JetBrains Mono',monospace;">${esc(d.payment_ref||'—')}</div></div>
       <div class="dp-field"><div class="dp-field-label">Submitted At</div><div class="dp-field-val">${new Date(sub.submitted_at).toLocaleString('en-NG')}</div></div>
     </div>
-
+ 
     <!-- Decision Actions -->
     <div class="dp-section">
       <div class="dp-section-title">Override Decision</div>
@@ -618,11 +730,11 @@ function openDetail(sub) {
     </div>
   `;
 }
-
+ 
 function closeDetail() {
   document.getElementById('detail-overlay').classList.remove('open');
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // OVERRIDE DECISION
 // ══════════════════════════════════════════════════════
@@ -639,7 +751,7 @@ function overrideDecision(ref, decision) {
     showToast('Decision updated to: ' + decision);
   }
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // ANALYTICS
 // ══════════════════════════════════════════════════════
@@ -648,36 +760,119 @@ function showView(view, clickedItem) {
   document.getElementById('view-' + view).classList.add('active');
   document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
   if (clickedItem) clickedItem.classList.add('active');
-  document.getElementById('view-title').textContent = view === 'applications' ? 'All Applications' : 'Analytics';
+  const titles = { applications: 'All Applications', analytics: 'Analytics', traffic: 'Page Traffic' };
+  document.getElementById('view-title').textContent = titles[view] || view;
   if (view === 'analytics') renderAnalytics();
+  if (view === 'traffic') renderTrafficView();
 }
-
+ 
+// ══════════════════════════════════════════════════════
+// TRAFFIC VIEW
+// ══════════════════════════════════════════════════════
+function renderTrafficView() {
+  const v = allViews;
+  const s = allSubmissions;
+  const now = new Date();
+  const today = now.toDateString();
+  const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+ 
+  // Summary stats
+  const todayCount = v.filter(x => new Date(x.ts).toDateString() === today).length;
+  const weekCount = v.filter(x => new Date(x.ts) >= sevenDaysAgo).length;
+  const convRate = v.length > 0 ? Math.round((s.length / v.length) * 100) : 0;
+ 
+  document.getElementById('tr-total').textContent = v.length;
+  document.getElementById('tr-today').textContent = todayCount;
+  document.getElementById('tr-week').textContent = weekCount;
+  document.getElementById('tr-conv').textContent = convRate + '%';
+ 
+  // Source chart
+  const sources = {};
+  v.forEach(x => { const src = x.source || 'direct'; sources[src] = (sources[src]||0)+1; });
+  renderBarChart('tr-chart-source', sources, {
+    direct: 'var(--b)', facebook: 'var(--m)', instagram: 'var(--o)',
+    google: 'var(--g)', twitter: 'var(--p)', referral: 'var(--y)'
+  });
+ 
+  // Daily chart — last 14 days
+  const daily = {};
+  for (let i = 13; i >= 0; i--) {
+    const d = new Date(now - i * 24 * 60 * 60 * 1000);
+    const label = d.toLocaleDateString('en-NG', { day:'2-digit', month:'short' });
+    daily[label] = 0;
+  }
+  v.forEach(x => {
+    const d = new Date(x.ts);
+    const label = d.toLocaleDateString('en-NG', { day:'2-digit', month:'short' });
+    if (daily[label] !== undefined) daily[label]++;
+  });
+  renderBarChart('tr-chart-daily', daily);
+ 
+  // Table
+  const tbody = document.getElementById('tr-table-body');
+  const empty = document.getElementById('tr-empty');
+  tbody.innerHTML = '';
+ 
+  if (!v.length) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+ 
+  v.slice(0, 100).forEach((view, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grey);">${v.length - idx}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.7);">${new Date(view.ts).toLocaleString('en-NG')}</td>
+      <td><span class="badge" style="background:rgba(39,170,225,.1);color:var(--b);border:1px solid rgba(39,170,225,.2);">${esc(view.source || 'direct')}</span></td>
+      <td style="font-size:12px;color:rgba(255,255,255,.5);">${esc(view.medium || '—')}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grey);">${esc(view.ref || '—')}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+ 
+  if (v.length > 100) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="5" style="text-align:center;padding:12px;font-size:12px;color:var(--grey);">Showing most recent 100 of ${v.length} total views</td>`;
+    tbody.appendChild(tr);
+  }
+}
+ 
+function clearTrafficData() {
+  if (!confirm('Are you sure you want to clear all page view data? This cannot be undone.')) return;
+  localStorage.removeItem('cfh_page_views');
+  allViews = [];
+  renderStats();
+  renderTrafficView();
+  showToast('Traffic data cleared.');
+}
+ 
 function renderAnalytics() {
   const data = allSubmissions;
   if (!data.length) return;
-
+ 
   // Decision chart
   const decisions = { ACCEPT:0, SHORTLIST:0, WAITLIST:0, DECLINE:0, 'AUTO-DECLINE':0 };
   data.forEach(s => { if (decisions[s.score.decision] !== undefined) decisions[s.score.decision]++; });
   renderBarChart('chart-decisions', decisions, { ACCEPT:'var(--g)', SHORTLIST:'var(--b)', WAITLIST:'var(--o)', DECLINE:'var(--m)', 'AUTO-DECLINE':'#FF6B9D' });
-
+ 
   // Industry
   const industries = {};
   data.forEach(s => { const i = industryLabel(s.data.industry); industries[i] = (industries[i]||0)+1; });
   renderBarChart('chart-industries', industries);
-
+ 
   // Revenue
   const revMap = { yes_consistent:'Consistent', yes_occasional:'Occasional', not_yet:'Pre-revenue' };
   const revs = {};
   data.forEach(s => { const r = revMap[s.data.revenue]||s.data.revenue||'Unknown'; revs[r]=(revs[r]||0)+1; });
   renderBarChart('chart-revenue', revs, { Consistent:'var(--g)', Occasional:'var(--b)', 'Pre-revenue':'var(--m)' });
-
+ 
   // Location
   const locMap = { yes_local:'Ajah/Lagos', can_commute:'Nearby', not_local:'Outside area' };
   const locs = {};
   data.forEach(s => { const l = locMap[s.data.location]||'Unknown'; locs[l]=(locs[l]||0)+1; });
   renderBarChart('chart-location', locs, { 'Ajah/Lagos':'var(--g)', 'Nearby':'var(--b)', 'Outside area':'var(--m)' });
-
+ 
   // Score bands
   const bands = { '80–100':0, '65–79':0, '50–64':0, '35–49':0, '0–34':0 };
   data.forEach(s => {
@@ -690,7 +885,7 @@ function renderAnalytics() {
   });
   renderBarChart('chart-scores', bands, { '80–100':'var(--g)', '65–79':'var(--b)', '50–64':'var(--o)', '35–49':'var(--m)', '0–34':'#FF6B9D' });
 }
-
+ 
 function renderBarChart(elId, data, colors = {}) {
   const el = document.getElementById(elId);
   if (!el) return;
@@ -706,15 +901,15 @@ function renderBarChart(elId, data, colors = {}) {
     </div>`;
   }).join('');
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // EXPORT CSV
 // ══════════════════════════════════════════════════════
 function exportCSV() {
   if (!allSubmissions.length) { showToast('No submissions to export.'); return; }
-
+ 
   const headers = ['Ref','Name','Email','Phone','Role','Business Name','Industry','Website','Biz Age','Team','Revenue','Rev Range','Location','Ethics','Approach','Structure Score','Total Score','Revenue Score','Professionalism Score','Collaboration Score','Vision Score','Fit Score','Ethics Result','Decision','Flags','Submitted At','Payment Ref'];
-
+ 
   const rows = allSubmissions.map(s => {
     const d = s.data; const sc = s.score;
     return [
@@ -726,7 +921,7 @@ function exportCSV() {
       sc.decision, (sc.flags||[]).join('; '), s.submitted_at, d.payment_ref||''
     ].map(v => '"' + String(v||'').replace(/"/g,'""') + '"');
   });
-
+ 
   const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
   const blob = new Blob([csv], { type: 'text/csv' });
   const url = URL.createObjectURL(blob);
@@ -736,7 +931,7 @@ function exportCSV() {
   a.click();
   URL.revokeObjectURL(url);
 }
-
+ 
 // ══════════════════════════════════════════════════════
 // TOAST
 // ══════════════════════════════════════════════════════
@@ -752,7 +947,7 @@ function showToast(msg) {
   t.style.opacity = '1';
   setTimeout(() => t.style.opacity = '0', 3000);
 }
-
+ 
 // Load sample data for demo if empty
 window.addEventListener('load', () => {
   // Allow pressing Enter on username field
