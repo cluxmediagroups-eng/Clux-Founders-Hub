@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clux Founders Hub — Screening Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --m: #E8175D; --o: #F7941D; --y: #FFC10E;
+  --g: #39B54A; --b: #27AAE1; --p: #92278F;
+  --ink: #1A1218; --ink2: #2D2030; --ink3: #3D3045;
+  --white: #FFFFFF; --warm: #FAF8F5; --cream: #F2EEE9;
+  --grey: #7A6F7A; --greylt: #EDE8E8;
+  --r: 2px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--warm);color:var(--ink);min-height:100vh;overflow-x:hidden;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--ink);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;border-bottom:3px solid transparent;border-image:linear-gradient(90deg,var(--m),var(--o),var(--y),var(--g),var(--b),var(--p)) 1;}
+.tb-logo{display:flex;align-items:center;gap:10px;}
+.tb-pill{height:30px;padding:0 12px;background:linear-gradient(135deg,var(--m),var(--o));border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;display:flex;align-items:center;letter-spacing:1px;}
+.tb-name{font-size:13px;font-weight:600;color:#fff;letter-spacing:.3px;}
+.tb-step{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--y);letter-spacing:2px;text-transform:uppercase;}
+
+/* ── HERO BAND ── */
+.hero-band{background:var(--ink2);padding:40px 32px 36px;position:relative;overflow:hidden;}
+.hero-band::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(232,23,93,.12) 0%,transparent 70%);pointer-events:none;}
+.hero-band::after{content:'';position:absolute;bottom:-40px;left:10%;width:200px;height:200px;background:radial-gradient(circle,rgba(39,170,225,.08) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;z-index:1;}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--y);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--y);}
+.hero-h1{font-family:'Fraunces',serif;font-size:clamp(28px,4vw,42px);font-weight:700;color:#fff;line-height:1.1;margin-bottom:12px;}
+.hero-h1 em{color:var(--m);font-style:italic;}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.55);line-height:1.7;max-width:540px;}
+.payment-verified{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:rgba(57,181,74,.12);border:1px solid rgba(57,181,74,.3);padding:7px 14px;border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g);letter-spacing:1.5px;text-transform:uppercase;}
+.payment-verified::before{content:'✓';font-size:12px;font-weight:700;}
+
+/* ── PROGRESS ── */
+.progress-wrap{background:var(--cream);border-bottom:1px solid var(--greylt);padding:20px 32px;}
+.progress-inner{max-width:720px;margin:0 auto;}
+.progress-track{display:flex;align-items:center;margin-bottom:8px;}
+.p-node{width:32px;height:32px;border-radius:50%;border:2px solid var(--greylt);background:var(--white);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--grey);flex-shrink:0;transition:all .3s;position:relative;z-index:1;}
+.p-node.active{border-color:var(--m);color:var(--m);background:rgba(232,23,93,.06);}
+.p-node.done{border-color:var(--g);background:var(--g);color:#fff;}
+.p-line{flex:1;height:2px;background:var(--greylt);transition:background .3s;}
+.p-line.done{background:var(--g);}
+.p-labels{display:flex;justify-content:space-between;}
+.p-lbl{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--grey);text-align:center;width:32px;transition:color .3s;}
+.p-lbl.active{color:var(--m);}
+
+/* ── FORM SHELL ── */
+.form-shell{max-width:720px;margin:0 auto;padding:40px 32px 80px;}
+
+.step{display:none;}
+.step.active{display:block;}
+
+.step-header{margin-bottom:32px;}
+.step-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--m);margin-bottom:10px;display:block;}
+.step-title{font-family:'Fraunces',serif;font-size:clamp(22px,3vw,30px);font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:8px;}
+.step-sub{font-size:13.5px;color:var(--grey);line-height:1.65;}
+
+/* ── FORM FIELDS ── */
+.field{margin-bottom:22px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:22px;}
+label.lbl{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--m);margin-bottom:8px;font-weight:500;}
+label.lbl .req{color:var(--m);}
+.hint{margin-top:5px;font-size:11.5px;color:var(--grey);line-height:1.5;}
+
+input[type=text],input[type=email],input[type=tel],select,textarea{
+  width:100%;background:var(--white);border:1.5px solid var(--greylt);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;padding:12px 14px;outline:none;border-radius:var(--r);transition:border-color .2s,box-shadow .2s;appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--m);box-shadow:0 0 0 3px rgba(232,23,93,.08);}
+input::placeholder,textarea::placeholder{color:var(--grey);}
+textarea{resize:vertical;min-height:110px;line-height:1.6;}
+select option{background:var(--white);}
+
+/* ── RADIO / CHECKBOX ── */
+.choices{display:flex;flex-direction:column;gap:8px;}
+.choice{display:flex;align-items:flex-start;gap:12px;padding:13px 16px;background:var(--white);border:1.5px solid var(--greylt);border-radius:var(--r);cursor:pointer;transition:all .2s;user-select:none;}
+.choice:hover{border-color:var(--m);background:rgba(232,23,93,.02);}
+.choice.selected{border-color:var(--m);background:rgba(232,23,93,.04);}
+.choice.check-selected{border-color:var(--g);background:rgba(57,181,74,.04);}
+.choice input{display:none;}
+.r-dot{width:18px;height:18px;border-radius:50%;border:2px solid var(--greylt);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.choice.selected .r-dot{border-color:var(--m);}
+.choice.selected .r-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--m);}
+.c-box{width:18px;height:18px;border:2px solid var(--greylt);border-radius:2px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.choice.check-selected .c-box{border-color:var(--g);background:var(--g);}
+.choice.check-selected .c-box::after{content:'✓';color:#fff;font-size:11px;font-weight:700;line-height:1;}
+.choice-text{font-size:13.5px;color:var(--ink);line-height:1.5;}
+.choice-text strong{color:var(--ink);font-weight:600;display:block;margin-bottom:1px;}
+
+/* ── SCALE ── */
+.scale-row{display:flex;gap:6px;flex-wrap:wrap;}
+.snum{width:44px;height:44px;border:1.5px solid var(--greylt);background:var(--white);color:var(--grey);font-family:'JetBrains Mono',monospace;font-size:14px;border-radius:var(--r);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;}
+.snum:hover{border-color:var(--m);color:var(--m);}
+.snum.selected{border-color:var(--m);background:var(--m);color:#fff;font-weight:600;}
+.scale-labels{display:flex;justify-content:space-between;margin-top:6px;}
+.s-lbl{font-size:10px;color:var(--grey);font-family:'JetBrains Mono',monospace;}
+
+/* ── CONDITIONAL BLOCKS ── */
+.conditional{display:none;}
+.conditional.show{display:block;}
+
+/* ── CALLOUT ── */
+.callout{background:rgba(232,23,93,.05);border-left:4px solid var(--m);padding:16px 20px;border-radius:0 var(--r) var(--r) 0;margin-bottom:20px;}
+.callout p{font-size:13px;color:var(--ink2);line-height:1.65;}
+.callout strong{color:var(--m);}
+
+.callout-green{background:rgba(57,181,74,.06);border-left-color:var(--g);}
+.callout-green p,.callout-green strong{color:var(--g);}
+
+.callout-blue{background:rgba(39,170,225,.06);border-left-color:var(--b);}
+
+/* ── NAV BUTTONS ── */
+.form-nav{display:flex;align-items:center;justify-content:space-between;margin-top:36px;padding-top:28px;border-top:1px solid var(--greylt);}
+.btn-back{background:none;border:1.5px solid var(--greylt);color:var(--grey);font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;padding:11px 22px;cursor:pointer;border-radius:var(--r);transition:all .2s;}
+.btn-back:hover{border-color:var(--ink);color:var(--ink);}
+.btn-next{background:linear-gradient(135deg,var(--m),var(--o));border:none;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:13px 32px;cursor:pointer;border-radius:var(--r);transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-next:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(232,23,93,.3);}
+.btn-next:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ── LOGIC NOTICE ── */
+.logic-flag{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--b);letter-spacing:1px;background:rgba(39,170,225,.08);padding:4px 10px;border-radius:var(--r);margin-bottom:12px;}
+
+/* ── SECTION DIVIDER ── */
+.sdivider{border:none;border-top:1px solid var(--greylt);margin:28px 0;}
+
+/* ── DECLARATION ── */
+.decl-box{background:rgba(57,181,74,.05);border:1.5px solid rgba(57,181,74,.2);padding:20px;border-radius:var(--r);margin-bottom:16px;}
+
+/* ── SUCCESS SCREEN ── */
+.success-screen{display:none;text-align:center;padding:80px 32px;}
+.success-screen.show{display:block;}
+.success-icon{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--g),#27B54A);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:36px;color:#fff;box-shadow:0 12px 36px rgba(57,181,74,.3);}
+.success-title{font-family:'Fraunces',serif;font-size:36px;font-weight:700;color:var(--ink);margin-bottom:14px;}
+.success-body{font-size:14px;color:var(--grey);line-height:1.8;max-width:480px;margin:0 auto 28px;}
+.success-ref{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--m);letter-spacing:2px;text-transform:uppercase;}
+
+/* ── DISQUALIFIED SCREEN ── */
+.dq-screen{display:none;text-align:center;padding:80px 32px;}
+.dq-screen.show{display:block;}
+.dq-icon{width:88px;height:88px;border-radius:50%;background:var(--cream);border:2px solid var(--greylt);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:36px;}
+.dq-title{font-family:'Fraunces',serif;font-size:30px;font-weight:700;color:var(--ink);margin-bottom:12px;}
+.dq-body{font-size:14px;color:var(--grey);line-height:1.8;max-width:460px;margin:0 auto;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .topbar{padding:12px 20px;}
+  .hero-band{padding:32px 20px;}
+  .progress-wrap{padding:16px 20px;}
+  .form-shell{padding:28px 20px 60px;}
+  .field-row{grid-template-columns:1fr;}
+  .scale-row{gap:4px;}
+  .snum{width:38px;height:38px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-logo">
+    <div class="tb-pill">CFH</div>
+    <span class="tb-name">Clux Founders Hub</span>
+  </div>
+  <span class="tb-step" id="step-indicator">Step 1 of 5</span>
+</div>
+
+<!-- HERO -->
+<div class="hero-band">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Screening Application</div>
+    <h1 class="hero-h1">Tell us about<br><em>your business.</em></h1>
+    <p class="hero-sub">Take your time with every question. Thorough, specific answers significantly increase your chances of being selected. Vague answers score lower in our review process.</p>
+    <div class="payment-verified" id="payment-badge">Payment Verified — Application Unlocked</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="progress-track">
+      <div class="p-node active" id="pn1">1</div>
+      <div class="p-line" id="pl1"></div>
+      <div class="p-node" id="pn2">2</div>
+      <div class="p-line" id="pl2"></div>
+      <div class="p-node" id="pn3">3</div>
+      <div class="p-line" id="pl3"></div>
+      <div class="p-node" id="pn4">4</div>
+      <div class="p-line" id="pl4"></div>
+      <div class="p-node" id="pn5">5</div>
+    </div>
+    <div class="p-labels">
+      <span class="p-lbl active" id="pl-1">You</span>
+      <span class="p-lbl" id="pl-2">Biz</span>
+      <span class="p-lbl" id="pl-3">Revenue</span>
+      <span class="p-lbl" id="pl-4">Fit</span>
+      <span class="p-lbl" id="pl-5">Vision</span>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-shell">
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✓</div>
+    <div class="success-title">Application Submitted.</div>
+    <div class="success-body">
+      Thank you. Your screening application for <strong id="s-bizname">your business</strong> has been received.<br><br>
+      Our team will review your responses within <strong>48–72 hours</strong>. If shortlisted, you will receive an email invitation to schedule a brief physical screening at the Hub.<br><br>
+      We will be in touch. Keep building.
+    </div>
+    <div class="success-ref" id="s-ref">Reference: CFH-2026-001</div>
+  </div>
+
+  <!-- DISQUALIFIED -->
+  <div class="dq-screen" id="dq-screen">
+    <div class="dq-icon">🙏</div>
+    <div class="dq-title">Thank you for applying.</div>
+    <div class="dq-body" id="dq-body">
+      After reviewing your responses, we are unable to progress your application at this time. Clux Founders Hub is currently admitting businesses that are actively generating revenue and operating within the Ajah axis of Lagos.<br><br>
+      We encourage you to apply again in a future cohort when your business meets our criteria. We wish you the very best in your journey.
+    </div>
+  </div>
+
+  <!-- ── STEP 1: Personal ── -->
+  <div class="step active" id="step-1">
+    <div class="step-header">
+      <span class="step-tag">Step 1 of 5 — About You</span>
+      <h2 class="step-title">Who are you?</h2>
+      <p class="step-sub">Every founder inside Clux Founders Hub is a real person building a real business. We start there.</p>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="lbl">Full Name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="Your full name">
+      </div>
+      <div class="field">
+        <label class="lbl">WhatsApp Number <span class="req">*</span></label>
+        <input type="tel" id="f-phone" placeholder="+234 000 000 0000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Email Address <span class="req">*</span></label>
+      <input type="email" id="f-email" placeholder="your@email.com">
+      <p class="hint">We will send your application outcome to this email. Check it regularly after applying.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Your Role in the Business <span class="req">*</span></label>
+      <select id="f-role">
+        <option value="" disabled selected>Select your role</option>
+        <option value="founder">Founder / CEO</option>
+        <option value="cofounder">Co-founder</option>
+        <option value="md">Managing Director</option>
+        <option value="director">Director / Partner</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label class="lbl">How did you hear about Clux Founders Hub? <span class="req">*</span></label>
+      <div class="choices" id="rg-source">
+        <label class="choice" onclick="pickRadio(this,'rg-source')"><input type="radio" value="facebook_ad"><div class="r-dot"></div><span class="choice-text">Facebook or Instagram Ad</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-source')"><input type="radio" value="referral"><div class="r-dot"></div><span class="choice-text">Referred by someone</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-source')"><input type="radio" value="organic_social"><div class="r-dot"></div><span class="choice-text">Organic social media post</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-source')"><input type="radio" value="other"><div class="r-dot"></div><span class="choice-text">Other</span></label>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <div></div>
+      <button class="btn-next" onclick="nextStep(1)">Continue <span>→</span></button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Business ── -->
+  <div class="step" id="step-2">
+    <div class="step-header">
+      <span class="step-tag">Step 2 of 5 — Your Business</span>
+      <h2 class="step-title">What are you building?</h2>
+      <p class="step-sub">We want to understand your business clearly — not just its name. Be specific.</p>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label class="lbl">Business Name <span class="req">*</span></label>
+        <input type="text" id="f-biz" placeholder="Your registered or trading name">
+      </div>
+      <div class="field">
+        <label class="lbl">Industry / Category <span class="req">*</span></label>
+        <select id="f-industry" onchange="checkIndustry()">
+          <option value="" disabled selected>Select your industry</option>
+          <option value="tech">Tech / Software Startup</option>
+          <option value="realestate">Real Estate Brand</option>
+          <option value="legal">Legal Firm</option>
+          <option value="accounting">Accounting & Tax</option>
+          <option value="logistics">Logistics Company</option>
+          <option value="hr">HR & Consulting Firm</option>
+          <option value="creative">Creative / Media Agency</option>
+          <option value="ecommerce">E-commerce / Retail</option>
+          <option value="health">Health & Wellness</option>
+          <option value="finance">Finance & Fintech</option>
+          <option value="education">Education & Training</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Conditional: Other industry -->
+    <div class="field conditional" id="cond-other-industry">
+      <label class="lbl">Please specify your industry <span class="req">*</span></label>
+      <input type="text" id="f-industry-other" placeholder="Describe your business category">
+    </div>
+
+    <div class="field">
+      <label class="lbl">Business Website or Instagram Handle</label>
+      <input type="text" id="f-web" placeholder="www.yourbusiness.com or @yourbusiness">
+      <p class="hint">Optional but strongly recommended — confirms your business is active and visible online.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">How long has your business been operating? <span class="req">*</span></label>
+      <div class="choices" id="rg-age">
+        <label class="choice" onclick="pickRadio(this,'rg-age')"><input type="radio" value="under6m"><div class="r-dot"></div><span class="choice-text">Under 6 months</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-age')"><input type="radio" value="6to12m"><div class="r-dot"></div><span class="choice-text">6 months – 1 year</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-age')"><input type="radio" value="1to2y"><div class="r-dot"></div><span class="choice-text">1 – 2 years</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-age')"><input type="radio" value="2to4y"><div class="r-dot"></div><span class="choice-text">2 – 4 years</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-age')"><input type="radio" value="4yplus"><div class="r-dot"></div><span class="choice-text">4 years or more</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Describe what your business does and who your customers are <span class="req">*</span></label>
+      <textarea id="f-bizdesc" placeholder="What problem do you solve? Who specifically do you serve? How do you deliver value to them? Be as clear and specific as possible."></textarea>
+      <p class="hint">Vague descriptions score lower. The more specific you are, the better we understand your business.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">How many people currently work in your business? <span class="req">*</span></label>
+      <div class="choices" id="rg-team">
+        <label class="choice" onclick="pickRadio(this,'rg-team')"><input type="radio" value="solo"><div class="r-dot"></div><span class="choice-text">Just me — solo founder</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-team')"><input type="radio" value="2to3"><div class="r-dot"></div><span class="choice-text">2 – 3 people</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-team')"><input type="radio" value="4to10"><div class="r-dot"></div><span class="choice-text">4 – 10 people</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-team')"><input type="radio" value="10plus"><div class="r-dot"></div><span class="choice-text">More than 10</span></label>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prevStep(2)">← Back</button>
+      <button class="btn-next" onclick="nextStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Revenue & Operations ── -->
+  <div class="step" id="step-3">
+    <div class="step-header">
+      <span class="step-tag">Step 3 of 5 — Revenue & Operations</span>
+      <h2 class="step-title">Is your business active?</h2>
+      <p class="step-sub">We admit businesses that are already operating and generating revenue. This section helps us understand where you are.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Is your business currently generating revenue? <span class="req">*</span></label>
+      <div class="choices" id="rg-rev">
+        <label class="choice" onclick="pickRadio(this,'rg-rev');showRevConditional('yes_consistent')"><input type="radio" value="yes_consistent"><div class="r-dot"></div><span class="choice-text"><strong>Yes — consistently</strong> I have regular paying customers or clients every month.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-rev');showRevConditional('yes_occasional')"><input type="radio" value="yes_occasional"><div class="r-dot"></div><span class="choice-text"><strong>Yes — occasionally</strong> I have made sales but revenue is not yet consistent.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-rev');showRevConditional('not_yet')"><input type="radio" value="not_yet"><div class="r-dot"></div><span class="choice-text"><strong>Not yet</strong> I am pre-revenue, still building.</span></label>
+      </div>
+    </div>
+
+    <!-- Conditional: pre-revenue warning -->
+    <div class="callout conditional" id="cond-prerev">
+      <p><strong>Important note:</strong> Clux Founders Hub currently admits businesses that are already generating revenue. Pre-revenue businesses are not eligible for this cohort. You are welcome to complete this application and we will consider you for a future cohort.</p>
+    </div>
+
+    <!-- Conditional: revenue range (shown if revenue yes) -->
+    <div class="field conditional" id="cond-rev-range">
+      <label class="lbl">Approximate monthly revenue range <span class="req">*</span></label>
+      <div class="choices" id="rg-range">
+        <label class="choice" onclick="pickRadio(this,'rg-range')"><input type="radio" value="below200k"><div class="r-dot"></div><span class="choice-text">Below ₦200,000</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-range')"><input type="radio" value="200to500k"><div class="r-dot"></div><span class="choice-text">₦200,000 – ₦500,000</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-range')"><input type="radio" value="500kto2m"><div class="r-dot"></div><span class="choice-text">₦500,000 – ₦2,000,000</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-range')"><input type="radio" value="above2m"><div class="r-dot"></div><span class="choice-text">Above ₦2,000,000</span></label>
+      </div>
+      <p class="hint">This information is strictly confidential and used only for screening purposes.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">What is the biggest operational challenge your business currently faces? <span class="req">*</span></label>
+      <textarea id="f-challenge" placeholder="Be honest. This helps us understand where you are and how the ecosystem can genuinely support your growth. The more specific, the better."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Does your business have any of the following? (select all that apply)</label>
+      <div class="choices" id="cg-structure">
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="cac"><div class="c-box"></div><span class="choice-text">CAC Registration</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="tax"><div class="c-box"></div><span class="choice-text">Tax Identification Number (TIN)</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="bank"><div class="c-box"></div><span class="choice-text">Business Bank Account</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="contracts"><div class="c-box"></div><span class="choice-text">Signed Contracts with Clients</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="accounts"><div class="c-box"></div><span class="choice-text">Basic Accounting / Bookkeeping</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="none"><div class="c-box"></div><span class="choice-text">None of the above yet</span></label>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prevStep(3)">← Back</button>
+      <button class="btn-next" onclick="nextStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 4: Ecosystem Fit ── -->
+  <div class="step" id="step-4">
+    <div class="step-header">
+      <span class="step-tag">Step 4 of 5 — Ecosystem Fit</span>
+      <h2 class="step-title">How do you fit?</h2>
+      <p class="step-sub">This is the most important section. We are not filling desks — we are building a collaborative community. We need to understand how you think and how you will contribute.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Why do you want to join Clux Founders Hub specifically? <span class="req">*</span></label>
+      <textarea id="f-why" placeholder="What specifically about this ecosystem speaks to where you are in your business journey? Tell us something specific to your situation — generic answers score poorly."></textarea>
+      <p class="hint">The more specific and personal your answer, the higher it scores in our review.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">What value can you contribute to other founders in the ecosystem? <span class="req">*</span></label>
+      <textarea id="f-value" placeholder="What skills, professional expertise, networks, or opportunities would you bring that could genuinely benefit other ecosystem members?"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Which best describes how you approach building your business? <span class="req">*</span></label>
+      <div class="choices" id="rg-approach">
+        <label class="choice" onclick="pickRadio(this,'rg-approach')"><input type="radio" value="independent"><div class="r-dot"></div><span class="choice-text"><strong>Independent</strong> I prefer to work alone and keep my business operations private.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-approach')"><input type="radio" value="selective"><div class="r-dot"></div><span class="choice-text"><strong>Selectively collaborative</strong> I am open to collaboration but careful about who I engage with.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-approach')"><input type="radio" value="active"><div class="r-dot"></div><span class="choice-text"><strong>Actively collaborative</strong> I actively seek collaboration and believe shared growth is faster than isolated hustle.</span></label>
+      </div>
+    </div>
+
+    <hr class="sdivider">
+
+    <div class="field">
+      <label class="lbl">Rate your current level of business structure — legal, financial, operational systems (1 = very informal, 10 = fully structured) <span class="req">*</span></label>
+      <div class="scale-row" id="scale-structure">
+        <button class="snum" onclick="pickScale(this,'scale-structure',1)">1</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',2)">2</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',3)">3</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',4)">4</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',5)">5</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',6)">6</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',7)">7</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',8)">8</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',9)">9</button>
+        <button class="snum" onclick="pickScale(this,'scale-structure',10)">10</button>
+      </div>
+      <div class="scale-labels"><span class="s-lbl">1 = Very informal</span><span class="s-lbl">10 = Fully structured</span></div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Are you based in or regularly operating within the Lagos Island / Ajah axis? <span class="req">*</span></label>
+      <div class="choices" id="rg-loc">
+        <label class="choice" onclick="pickRadio(this,'rg-loc')"><input type="radio" value="yes_local"><div class="r-dot"></div><span class="choice-text"><strong>Yes</strong> — I live or work in Lagos Island, Lekki, Victoria Island, Ikoyi, Ajah, or surrounding areas.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-loc')"><input type="radio" value="can_commute"><div class="r-dot"></div><span class="choice-text"><strong>Nearby</strong> — I can commute to the Ajah axis consistently without difficulty.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-loc')"><input type="radio" value="not_local"><div class="r-dot"></div><span class="choice-text"><strong>No</strong> — I am not currently based in or near this area.</span></label>
+      </div>
+    </div>
+
+    <!-- Conditional: not local -->
+    <div class="callout conditional" id="cond-not-local">
+      <p><strong>Location note:</strong> Clux Founders Hub is a physical ecosystem. Active, regular presence is important to the community. Being outside the Ajah axis may affect your application. Please continue and explain your situation in the notes section.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Does your business operate ethically and legally? <span class="req">*</span></label>
+      <div class="choices" id="rg-ethics">
+        <label class="choice" onclick="pickRadio(this,'rg-ethics')"><input type="radio" value="yes_ethical"><div class="r-dot"></div><span class="choice-text"><strong>Yes</strong> — My business is fully ethical, transparent, and legally compliant.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-ethics')"><input type="radio" value="mostly"><div class="r-dot"></div><span class="choice-text"><strong>Mostly</strong> — We are working toward full compliance but are not yet fully structured.</span></label>
+        <label class="choice" onclick="pickRadio(this,'rg-ethics')"><input type="radio" value="unsure"><div class="r-dot"></div><span class="choice-text"><strong>Not sure</strong> — I am unsure of our compliance status in some areas.</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Does your business involve any of the following? (Honest answer required)</label>
+      <div class="choices" id="cg-prohibited">
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="forex_scheme"><div class="c-box"></div><span class="choice-text">FX/Forex trading with recruitment or scheme elements</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="investment_scheme"><div class="c-box"></div><span class="choice-text">Unregistered or unregulated investment schemes</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="betting"><div class="c-box"></div><span class="choice-text">Betting, gambling, or wagering</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="mlm"><div class="c-box"></div><span class="choice-text">Multi-level marketing (MLM)</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="none_prohibited"><div class="c-box"></div><span class="choice-text"><strong>None of the above</strong></span></label>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prevStep(4)">← Back</button>
+      <button class="btn-next" onclick="nextStep(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 5: Vision & Final ── -->
+  <div class="step" id="step-5">
+    <div class="step-header">
+      <span class="step-tag">Step 5 of 5 — Vision & Declaration</span>
+      <h2 class="step-title">Where are you going?</h2>
+      <p class="step-sub">These final questions complete your application. Read each one carefully before answering.</p>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Where do you see your business in 12 months, and how does this ecosystem specifically support that vision? <span class="req">*</span></label>
+      <textarea id="f-vision" placeholder="Be specific about your 12-month goals and explain exactly how the ecosystem's resources, network, and environment would accelerate those goals. Vague vision answers score poorly."></textarea>
+    </div>
+
+    <div class="field">
+      <label class="lbl">What is your primary reason for choosing Clux Founders Hub over other options available to you?</label>
+      <textarea id="f-primary-reason" placeholder="Optional — but a strong answer here significantly strengthens your application." style="min-height:90px;"></textarea>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Which ecosystem benefits are you most excited about? <span class="req">*</span></label>
+      <div class="choices" id="cg-benefits">
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="workspace"><div class="c-box"></div><span class="choice-text">Professional workspace — free for Founder + 1 Staff</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="legal"><div class="c-box"></div><span class="choice-text">Shared legal and compliance support</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="financial"><div class="c-box"></div><span class="choice-text">Financial and accounting resources</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="referrals"><div class="c-box"></div><span class="choice-text">Referral and cross-patronage opportunities</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="subscriptions"><div class="c-box"></div><span class="choice-text">Shared business subscriptions and tools</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="network"><div class="c-box"></div><span class="choice-text">Professional founder network</span></label>
+        <label class="choice" onclick="toggleCheck(this)"><input type="checkbox" value="growth_sessions"><div class="c-box"></div><span class="choice-text">Monthly growth and accountability sessions</span></label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="lbl">Is there anything else you would like us to know about you or your business?</label>
+      <textarea id="f-extra" placeholder="Optional — use this space for anything the form hasn't covered that you feel strengthens your application." style="min-height:80px;"></textarea>
+    </div>
+
+    <div class="decl-box">
+      <div class="choices" style="gap:0;">
+        <label class="choice" id="decl-check" onclick="toggleCheck(this)" style="border:none;padding:0;background:none;">
+          <input type="checkbox" value="agreed">
+          <div class="c-box"></div>
+          <span class="choice-text" style="font-size:13px;line-height:1.65;">I confirm the information I have provided is truthful and accurate. I understand admission is selective and not guaranteed. I agree to the ecosystem's code of conduct if selected. <strong>I have paid the ₦10,000 screening fee via Flutterwave.</strong></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn-back" onclick="prevStep(5)">← Back</button>
+      <button class="btn-next" id="submit-btn" onclick="submitForm()" style="background:linear-gradient(135deg,var(--g),#27B54A);">Submit Application ✓</button>
+    </div>
+  </div>
+
+</div><!-- /form-shell -->
+
+<script>
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+let currentStep = 1;
+const scaleValues = {};
+let submissionRef = null;
+
+// ══════════════════════════════════════════════════════
+// SCORING ENGINE — runs at submit, hidden from lead
+// ══════════════════════════════════════════════════════
+function computeScore(data) {
+  let score = { total: 0, breakdown: {}, flags: [], decision: '', band: '' };
+
+  // ── B1: Revenue & Business Activity (25pts) ──
+  let b1 = 0;
+  if (data.revenue === 'yes_consistent') b1 += 12;
+  else if (data.revenue === 'yes_occasional') b1 += 7;
+  else if (data.revenue === 'not_yet') b1 += 0;
+
+  if (data.rev_range === 'above2m') b1 += 8;
+  else if (data.rev_range === '500kto2m') b1 += 6;
+  else if (data.rev_range === '200to500k') b1 += 4;
+  else if (data.rev_range === 'below200k') b1 += 2;
+
+  if (['2to4y','4yplus'].includes(data.biz_age)) b1 += 5;
+  else if (['1to2y','6to12m'].includes(data.biz_age)) b1 += 3;
+  else if (data.biz_age === 'under6m') b1 += 1;
+
+  b1 = Math.min(b1, 25);
+  score.breakdown.revenue = b1;
+
+  // ── B2: Professionalism (20pts) ──
+  let b2 = 0;
+  const bizDescLen = (data.biz_desc || '').trim().length;
+  if (bizDescLen > 300) b2 += 7;
+  else if (bizDescLen > 150) b2 += 5;
+  else if (bizDescLen > 50) b2 += 2;
+
+  if (data.website && data.website.trim().length > 3) b2 += 5;
+
+  const structureCount = (data.structure_items || []).filter(x => x !== 'none').length;
+  b2 += Math.min(structureCount * 2, 8);
+
+  b2 = Math.min(b2, 20);
+  score.breakdown.professionalism = b2;
+
+  // ── B3: Collaboration (20pts) ──
+  let b3 = 0;
+  if (data.approach === 'active') b3 += 10;
+  else if (data.approach === 'selective') b3 += 6;
+  else if (data.approach === 'independent') b3 += 1;
+
+  const whyLen = (data.why || '').trim().length;
+  if (whyLen > 250) b3 += 6;
+  else if (whyLen > 120) b3 += 4;
+  else if (whyLen > 50) b3 += 2;
+
+  const valueLen = (data.value || '').trim().length;
+  if (valueLen > 150) b3 += 4;
+  else if (valueLen > 60) b3 += 2;
+
+  b3 = Math.min(b3, 20);
+  score.breakdown.collaboration = b3;
+
+  // ── B4: Vision (20pts) ──
+  let b4 = 0;
+  const visionLen = (data.vision || '').trim().length;
+  if (visionLen > 300) b4 += 12;
+  else if (visionLen > 150) b4 += 8;
+  else if (visionLen > 60) b4 += 4;
+
+  const benefitsSelected = (data.benefits || []).length;
+  b4 += Math.min(benefitsSelected * 1, 4);
+
+  if ((data.primary_reason || '').trim().length > 100) b4 += 4;
+
+  b4 = Math.min(b4, 20);
+  score.breakdown.vision = b4;
+
+  // ── B5: Fit & Geography (15pts) ──
+  let b5 = 0;
+  if (data.location === 'yes_local') b5 += 10;
+  else if (data.location === 'can_commute') b5 += 5;
+  else b5 += 0;
+
+  if (data.industry && data.industry !== 'other') b5 += 5;
+  else if (data.industry === 'other' && data.industry_other) b5 += 3;
+
+  b5 = Math.min(b5, 15);
+  score.breakdown.fit = b5;
+
+  // ── B6: Ethics (Pass/Fail) ──
+  const prohibited = data.prohibited || [];
+  const hasProhibited = prohibited.some(x => ['forex_scheme','investment_scheme','betting','mlm'].includes(x));
+  const ethicsPass = !hasProhibited && data.ethics !== 'unsure';
+
+  score.breakdown.ethics = ethicsPass ? 'PASS' : 'FAIL';
+  if (!ethicsPass) score.flags.push('Ethics/prohibited activity flag');
+
+  // ── TOTAL ──
+  score.total = b1 + b2 + b3 + b4 + b5;
+
+  // ── FLAGS ──
+  if (data.revenue === 'not_yet') score.flags.push('Pre-revenue business');
+  if (data.location === 'not_local') score.flags.push('Outside Ajah axis');
+  if (['under6m'].includes(data.biz_age)) score.flags.push('Business under 6 months old');
+
+  // ── DECISION ──
+  if (!ethicsPass) {
+    score.decision = 'AUTO-DECLINE';
+    score.band = 'red';
+  } else if (score.total >= 80) {
+    score.decision = 'ACCEPT';
+    score.band = 'green';
+  } else if (score.total >= 65) {
+    score.decision = 'SHORTLIST';
+    score.band = 'blue';
+  } else if (score.total >= 50) {
+    score.decision = 'WAITLIST';
+    score.band = 'orange';
+  } else {
+    score.decision = 'DECLINE';
+    score.band = 'red';
+  }
+
+  return score;
+}
+
+// ══════════════════════════════════════════════════════
+// FORM NAVIGATION
+// ══════════════════════════════════════════════════════
+function nextStep(from) {
+  if (!validateStep(from)) return;
+  moveStep(from + 1);
+}
+function prevStep(from) { moveStep(from - 1); }
+
+function moveStep(to) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  currentStep = to;
+  document.getElementById('step-' + currentStep).classList.add('active');
+  syncProgress();
+  document.getElementById('step-indicator').textContent = `Step ${to} of 5`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function syncProgress() {
+  for (let i = 1; i <= 5; i++) {
+    const n = document.getElementById('pn' + i);
+    const l = document.getElementById('pl-' + i);
+    const ln = document.getElementById('pl' + i);
+    n.classList.remove('active','done');
+    l && l.classList.remove('active');
+    ln && ln.classList.remove('done');
+    if (i < currentStep) {
+      n.classList.add('done'); n.textContent = '✓';
+      ln && ln.classList.add('done');
+    } else if (i === currentStep) {
+      n.classList.add('active'); n.textContent = i;
+      l && l.classList.add('active');
+    } else {
+      n.textContent = i;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// VALIDATION
+// ══════════════════════════════════════════════════════
+function validateStep(step) {
+  const required = {
+    1: ['f-name','f-phone','f-email'],
+    2: ['f-biz','f-bizdesc'],
+    3: ['f-challenge'],
+    4: ['f-why','f-value'],
+    5: ['f-vision']
+  };
+  let valid = true;
+  (required[step] || []).forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value.trim()) {
+      el.style.borderColor = 'var(--m)';
+      el.focus();
+      setTimeout(() => el.style.borderColor = '', 2500);
+      valid = false;
+    }
+  });
+  if (!valid) { showToast('Please fill in all required fields.'); return false; }
+
+  // Step 2: industry required
+  if (step === 2) {
+    const ind = document.getElementById('f-industry').value;
+    if (!ind) { showToast('Please select your industry.'); return false; }
+  }
+  return true;
+}
+
+// ══════════════════════════════════════════════════════
+// CONDITIONAL LOGIC
+// ══════════════════════════════════════════════════════
+function checkIndustry() {
+  const val = document.getElementById('f-industry').value;
+  const el = document.getElementById('cond-other-industry');
+  el.classList.toggle('show', val === 'other');
+}
+
+function showRevConditional(val) {
+  document.getElementById('cond-prerev').classList.toggle('show', val === 'not_yet');
+  document.getElementById('cond-rev-range').classList.toggle('show', val !== 'not_yet');
+}
+
+// Watch location radio
+function checkLocationConditional() {
+  const selected = document.querySelector('#rg-loc .choice.selected input');
+  if (selected) {
+    document.getElementById('cond-not-local').classList.toggle('show', selected.value === 'not_local');
+  }
+}
+
+// Override pickRadio to also fire conditionals
+const _origPickRadio = function(el, groupId) {
+  document.querySelectorAll('#' + groupId + ' .choice').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  if (groupId === 'rg-loc') checkLocationConditional();
+};
+
+// ══════════════════════════════════════════════════════
+// FORM CONTROLS
+// ══════════════════════════════════════════════════════
+function pickRadio(el, groupId) {
+  _origPickRadio(el, groupId);
+}
+
+function toggleCheck(el) {
+  // If none_prohibited or none selected, deselect others
+  const val = el.querySelector('input').value;
+  const groupId = el.closest('.choices').id;
+
+  if (val === 'none' || val === 'none_prohibited') {
+    const siblings = el.closest('.choices').querySelectorAll('.choice');
+    siblings.forEach(s => { if (s !== el) s.classList.remove('check-selected'); });
+  } else {
+    // Deselect the "none" option if it exists
+    const noneEl = el.closest('.choices').querySelector('input[value="none"], input[value="none_prohibited"]');
+    if (noneEl) noneEl.closest('.choice').classList.remove('check-selected');
+  }
+  el.classList.toggle('check-selected');
+}
+
+function pickScale(btn, groupId, val) {
+  document.querySelectorAll('#' + groupId + ' .snum').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  scaleValues[groupId] = val;
+}
+
+// ══════════════════════════════════════════════════════
+// COLLECT FORM DATA
+// ══════════════════════════════════════════════════════
+function collectData() {
+  const getRadio = (id) => {
+    const sel = document.querySelector('#' + id + ' .choice.selected input');
+    return sel ? sel.value : null;
+  };
+  const getChecks = (id) => {
+    return Array.from(document.querySelectorAll('#' + id + ' .choice.check-selected input'))
+      .map(i => i.value);
+  };
+  const v = (id) => (document.getElementById(id) || {}).value || '';
+
+  return {
+    // Personal
+    name: v('f-name'), phone: v('f-phone'), email: v('f-email'),
+    role: v('f-role'), source: getRadio('rg-source'),
+    // Business
+    biz_name: v('f-biz'), industry: v('f-industry'),
+    industry_other: v('f-industry-other'), website: v('f-web'),
+    biz_age: getRadio('rg-age'), biz_desc: v('f-bizdesc'),
+    team_size: getRadio('rg-team'),
+    // Revenue
+    revenue: getRadio('rg-rev'), rev_range: getRadio('rg-range'),
+    challenge: v('f-challenge'),
+    structure_items: getChecks('cg-structure'),
+    // Fit
+    why: v('f-why'), value: v('f-value'),
+    approach: getRadio('rg-approach'),
+    structure_score: scaleValues['scale-structure'] || null,
+    location: getRadio('rg-loc'),
+    ethics: getRadio('rg-ethics'),
+    prohibited: getChecks('cg-prohibited'),
+    // Vision
+    vision: v('f-vision'),
+    primary_reason: v('f-primary-reason'),
+    benefits: getChecks('cg-benefits'),
+    extra: v('f-extra'),
+    // Meta
+    submitted_at: new Date().toISOString(),
+    payment_ref: new URLSearchParams(window.location.search).get('ref') || 'MANUAL',
+  };
+}
+
+// ══════════════════════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════════════════════
+function submitForm() {
+  const decl = document.getElementById('decl-check');
+  if (!decl.classList.contains('check-selected')) {
+    showToast('Please confirm the declaration at the bottom before submitting.');
+    return;
+  }
+
+  const data = collectData();
+  const scoreResult = computeScore(data);
+  const ref = 'CFH-' + Date.now().toString(36).toUpperCase();
+  submissionRef = ref;
+
+  const submission = {
+    ref,
+    data,
+    score: scoreResult,
+    submitted_at: data.submitted_at
+  };
+
+  // Save to localStorage (admin reads from here)
+  const existing = JSON.parse(localStorage.getItem('cfh_submissions') || '[]');
+  existing.push(submission);
+  localStorage.setItem('cfh_submissions', JSON.stringify(existing));
+
+  // Show outcome to user
+  const formEl = document.querySelectorAll('.step');
+  formEl.forEach(s => s.classList.remove('active'));
+
+  const isAutoDecline = scoreResult.decision === 'AUTO-DECLINE';
+  const isHardDecline = scoreResult.decision === 'DECLINE' && scoreResult.total < 35;
+  const isPrerevenue = data.revenue === 'not_yet';
+
+  if (isPrerevenue || isAutoDecline) {
+    // Show disqualified screen — but still save to admin
+    const dqBody = document.getElementById('dq-body');
+    if (isPrerevenue) {
+      dqBody.innerHTML = 'After reviewing your responses, we are unable to progress your application at this time. <strong>Clux Founders Hub currently admits businesses that are already generating revenue.</strong> We encourage you to apply again in a future cohort when your business meets this criteria. We wish you all the best.';
+    } else {
+      dqBody.innerHTML = 'After reviewing your responses, we are unable to progress your application to the next stage at this time. This may be due to the current cohort requirements or your business profile at this stage. We encourage you to reapply in a future cohort.';
+    }
+    document.getElementById('dq-screen').classList.add('show');
+  } else {
+    // Show success
+    document.getElementById('s-bizname').textContent = data.biz_name || 'your business';
+    document.getElementById('s-ref').textContent = 'Reference: ' + ref;
+    document.getElementById('success-screen').classList.add('show');
+  }
+
+  document.getElementById('step-indicator').textContent = 'Submitted';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 24px;border-radius:4px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.3);font-family:Plus Jakarta Sans,sans-serif;max-width:90vw;text-align:center;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+// ══════════════════════════════════════════════════════
+// PAYMENT VERIFICATION
+// ══════════════════════════════════════════════════════
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('status');
+  const txRef = params.get('tx_ref') || params.get('ref');
+  const badge = document.getElementById('payment-badge');
+
+  // Flutterwave redirects with ?status=successful&tx_ref=...
+  if (status === 'successful' || status === 'completed' || txRef) {
+    badge.textContent = '✓  Payment Verified — Application Unlocked';
+    badge.style.background = 'rgba(57,181,74,.12)';
+    badge.style.borderColor = 'rgba(57,181,74,.3)';
+    badge.style.color = 'var(--g)';
+  } else if (status === 'cancelled') {
+    badge.textContent = '⚠  Payment Incomplete — Please complete payment first';
+    badge.style.background = 'rgba(232,23,93,.1)';
+    badge.style.borderColor = 'rgba(232,23,93,.3)';
+    badge.style.color = 'var(--m)';
+  }
+  // Store flutterwave ref
+  if (txRef) {
+    document.querySelectorAll('input[id]').forEach(() => {}); // ensure DOM loaded
+  }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CFH Admin — Screening Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --m:#E8175D;--o:#F7941D;--y:#FFC10E;--g:#39B54A;--b:#27AAE1;--p:#92278F;
+  --ink:#1A1218;--ink2:#231F20;--ink3:#2D2030;
+  --white:#FFFFFF;--warm:#F8F5F2;--cream:#F0EBE8;
+  --grey:#7A6F7A;--greylt:#E8E2E5;--greymd:#C8BEC5;
+  --sidebar:220px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--ink2);color:var(--white);display:flex;flex-direction:column;}
+
+/* ── LOGIN WALL ── */
+#login-wall{position:fixed;inset:0;background:var(--ink2);z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;}
+#login-wall.hidden{display:none;}
+.login-box{background:var(--ink3);border:1px solid rgba(255,255,255,.08);padding:48px;width:360px;border-radius:4px;position:relative;overflow:hidden;}
+.login-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--m),var(--o),var(--y),var(--g),var(--b),var(--p));}
+.login-brand{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:6px;}
+.login-sub{font-size:12px;color:var(--grey);margin-bottom:32px;font-family:'JetBrains Mono',monospace;letter-spacing:1px;text-transform:uppercase;}
+.login-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--m);margin-bottom:8px;display:block;}
+.login-input{width:100%;background:rgba(255,255,255,.05);border:1.5px solid rgba(255,255,255,.08);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;padding:12px 14px;outline:none;border-radius:2px;margin-bottom:16px;transition:border-color .2s;}
+.login-input:focus{border-color:var(--m);}
+.login-input::placeholder{color:var(--grey);}
+.login-btn{width:100%;background:linear-gradient(135deg,var(--m),var(--o));border:none;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;padding:13px;cursor:pointer;border-radius:2px;transition:all .2s;}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(232,23,93,.3);}
+.login-err{font-size:12px;color:var(--m);margin-top:10px;display:none;}
+
+/* ── APP SHELL ── */
+#app{display:flex;height:100%;overflow:hidden;}
+#app.hidden{display:none;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar);background:var(--ink3);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;flex-shrink:0;height:100%;overflow-y:auto;}
+.sb-brand{padding:24px 20px;border-bottom:1px solid rgba(255,255,255,.06);}
+.sb-logo{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.sb-pill{height:26px;padding:0 10px;background:linear-gradient(135deg,var(--m),var(--o));border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;display:flex;align-items:center;letter-spacing:1px;}
+.sb-name{font-size:12px;font-weight:600;color:#fff;}
+.sb-sub{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--grey);letter-spacing:2px;text-transform:uppercase;}
+.sb-nav{padding:16px 12px;flex:1;}
+.sb-section{font-family:'JetBrains Mono',monospace;font-size:8px;color:rgba(255,255,255,.25);letter-spacing:2px;text-transform:uppercase;padding:0 8px;margin:16px 0 8px;}
+.sb-item{display:flex;align-items:center;gap:10px;padding:9px 8px;border-radius:2px;cursor:pointer;transition:all .2s;font-size:13px;color:rgba(255,255,255,.6);margin-bottom:2px;}
+.sb-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+.sb-item.active{background:rgba(232,23,93,.12);color:var(--m);}
+.sb-item .icon{font-size:14px;width:18px;text-align:center;}
+.sb-footer{padding:16px;border-top:1px solid rgba(255,255,255,.06);}
+.logout-btn{width:100%;background:none;border:1px solid rgba(255,255,255,.1);color:var(--grey);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:8px;cursor:pointer;border-radius:2px;transition:all .2s;}
+.logout-btn:hover{border-color:var(--m);color:var(--m);}
+
+/* ── MAIN AREA ── */
+.main{flex:1;display:flex;flex-direction:column;height:100%;overflow:hidden;}
+
+/* ── TOPBAR ── */
+.main-topbar{background:var(--ink3);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.topbar-title{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:#fff;}
+.topbar-actions{display:flex;align-items:center;gap:10px;}
+.tb-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.7);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;padding:7px 14px;cursor:pointer;border-radius:2px;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.tb-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+.tb-btn.primary{background:linear-gradient(135deg,var(--m),var(--o));border:none;color:#fff;font-weight:600;}
+
+/* ── CONTENT SCROLL ── */
+.main-content{flex:1;overflow-y:auto;padding:24px;}
+
+/* ── VIEWS ── */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ── STAT CARDS ── */
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px;}
+.stat-card{background:var(--ink3);border:1px solid rgba(255,255,255,.06);padding:20px;position:relative;overflow:hidden;border-radius:2px;}
+.stat-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.stat-card:nth-child(1)::before{background:var(--m);}
+.stat-card:nth-child(2)::before{background:var(--g);}
+.stat-card:nth-child(3)::before{background:var(--b);}
+.stat-card:nth-child(4)::before{background:var(--o);}
+.stat-card:nth-child(5)::before{background:var(--grey);}
+.sc-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:8px;}
+.sc-val{font-family:'Fraunces',serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:4px;}
+.stat-card:nth-child(1) .sc-val{color:var(--m);}
+.stat-card:nth-child(2) .sc-val{color:var(--g);}
+.stat-card:nth-child(3) .sc-val{color:var(--b);}
+.stat-card:nth-child(4) .sc-val{color:var(--o);}
+.stat-card:nth-child(5) .sc-val{color:var(--grey);}
+.sc-sub{font-size:11px;color:var(--grey);}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.filter-btn{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.6);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:7px 14px;cursor:pointer;border-radius:2px;transition:all .2s;}
+.filter-btn:hover{background:rgba(255,255,255,.1);color:#fff;}
+.filter-btn.active{border-color:var(--m);color:var(--m);background:rgba(232,23,93,.08);}
+.search-box{margin-left:auto;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;padding:7px 12px;border-radius:2px;outline:none;width:220px;transition:border-color .2s;}
+.search-box:focus{border-color:var(--m);}
+.search-box::placeholder{color:var(--grey);}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--ink3);border:1px solid rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.table-scroll{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:rgba(0,0,0,.3);}
+thead th{text-align:left;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);white-space:nowrap;border-bottom:1px solid rgba(255,255,255,.06);}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s;cursor:pointer;}
+tbody tr:hover{background:rgba(255,255,255,.04);}
+tbody tr:last-child{border-bottom:none;}
+tbody td{padding:12px 14px;color:rgba(255,255,255,.8);vertical-align:middle;}
+.empty-state{text-align:center;padding:60px 20px;color:var(--grey);font-size:14px;}
+.empty-state .es-icon{font-size:36px;margin-bottom:12px;}
+
+/* ── BADGES ── */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:2px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:500;white-space:nowrap;}
+.badge-accept{background:rgba(57,181,74,.15);color:var(--g);border:1px solid rgba(57,181,74,.25);}
+.badge-shortlist{background:rgba(39,170,225,.15);color:var(--b);border:1px solid rgba(39,170,225,.25);}
+.badge-waitlist{background:rgba(247,148,29,.15);color:var(--o);border:1px solid rgba(247,148,29,.25);}
+.badge-decline{background:rgba(232,23,93,.12);color:var(--m);border:1px solid rgba(232,23,93,.2);}
+.badge-autodecline{background:rgba(100,0,30,.3);color:#FF6B9D;border:1px solid rgba(232,23,93,.3);}
+
+/* Score bar */
+.score-bar-wrap{display:flex;align-items:center;gap:8px;}
+.score-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;min-width:32px;}
+.score-bar{flex:1;height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;min-width:60px;}
+.score-fill{height:100%;border-radius:3px;transition:width .4s;}
+
+/* ── DETAIL PANEL ── */
+.detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;align-items:stretch;justify-content:flex-end;}
+.detail-overlay.open{display:flex;}
+.detail-panel{width:620px;max-width:95vw;background:var(--ink2);border-left:1px solid rgba(255,255,255,.08);height:100%;overflow-y:auto;display:flex;flex-direction:column;}
+.dp-header{padding:24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--ink2);z-index:1;flex-shrink:0;}
+.dp-title{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:#fff;}
+.dp-close{background:none;border:1px solid rgba(255,255,255,.1);color:var(--grey);width:32px;height:32px;cursor:pointer;border-radius:2px;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.dp-close:hover{border-color:var(--m);color:var(--m);}
+.dp-body{padding:24px;flex:1;}
+
+/* Score summary */
+.score-summary{background:var(--ink3);border:1px solid rgba(255,255,255,.08);padding:20px;margin-bottom:20px;border-radius:2px;}
+.ss-total{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(255,255,255,.06);}
+.ss-total-num{font-family:'Fraunces',serif;font-size:48px;font-weight:700;line-height:1;}
+.ss-total-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-top:4px;}
+.ss-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ss-item{background:rgba(0,0,0,.2);padding:10px 12px;border-radius:2px;}
+.ss-item-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;}
+.ss-item-val{font-family:'Fraunces',serif;font-size:20px;font-weight:700;}
+
+/* Flags */
+.flags-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+.flag-chip{background:rgba(247,148,29,.1);border:1px solid rgba(247,148,29,.2);color:var(--o);padding:3px 8px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;border-radius:2px;}
+.no-flags{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--g);letter-spacing:1px;}
+
+/* Detail sections */
+.dp-section{margin-bottom:20px;}
+.dp-section-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--m);padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:12px;}
+.dp-field{margin-bottom:12px;}
+.dp-field-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:4px;}
+.dp-field-val{font-size:13px;color:rgba(255,255,255,.85);line-height:1.6;}
+.dp-field-val.long{font-size:12.5px;color:rgba(255,255,255,.7);background:rgba(0,0,0,.2);padding:10px 12px;border-radius:2px;border-left:2px solid rgba(255,255,255,.08);}
+.dp-tag{display:inline-block;background:rgba(255,255,255,.06);padding:2px 8px;border-radius:2px;font-size:11px;color:rgba(255,255,255,.6);margin:2px;}
+
+/* Decision buttons */
+.decision-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.06);}
+.dec-btn{flex:1;padding:10px 8px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all .2s;min-width:80px;}
+.dec-accept{background:var(--g);color:#fff;}
+.dec-shortlist{background:var(--b);color:#fff;}
+.dec-waitlist{background:var(--o);color:var(--ink);}
+.dec-decline{background:var(--m);color:#fff;}
+.dec-btn:hover{transform:translateY(-1px);filter:brightness(1.1);}
+
+/* ── ANALYTICS VIEW ── */
+.analytics-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;}
+.chart-card{background:var(--ink3);border:1px solid rgba(255,255,255,.06);padding:20px;border-radius:2px;}
+.chart-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:16px;}
+.bar-chart{display:flex;flex-direction:column;gap:8px;}
+.bc-row{display:flex;align-items:center;gap:10px;}
+.bc-label{font-size:11px;color:rgba(255,255,255,.6);width:80px;text-align:right;flex-shrink:0;}
+.bc-bar-wrap{flex:1;background:rgba(255,255,255,.06);height:20px;border-radius:2px;overflow:hidden;}
+.bc-bar{height:100%;border-radius:2px;transition:width .6s;display:flex;align-items:center;padding-left:8px;}
+.bc-bar-val{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,.8);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .sidebar{width:180px;}
+  .stats-row{grid-template-columns:repeat(3,1fr);}
+  .detail-panel{width:95vw;}
+}
+@media(max-width:680px){
+  .sidebar{display:none;}
+  .stats-row{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN WALL -->
+<div id="login-wall">
+  <div class="login-box">
+    <div class="login-brand">Clux Founders Hub</div>
+    <div class="login-sub">Admin Dashboard</div>
+    <label class="login-label">Username</label>
+    <input type="text" class="login-input" id="lg-user" placeholder="admin" autocomplete="off">
+    <label class="login-label">Password</label>
+    <input type="password" class="login-input" id="lg-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Access Dashboard</button>
+    <div class="login-err" id="login-err">Incorrect credentials. Try again.</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo">
+        <div class="sb-pill">CFH</div>
+        <span class="sb-name">Admin</span>
+      </div>
+      <div class="sb-sub">Founders Hub</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section">Main</div>
+      <div class="sb-item active" onclick="showView('applications',this)"><span class="icon">📋</span> Applications</div>
+      <div class="sb-item" onclick="showView('analytics',this)"><span class="icon">📊</span> Analytics</div>
+      <div class="sb-section">Decisions</div>
+      <div class="sb-item" onclick="filterByDecision('ACCEPT')"><span class="icon">✅</span> Accepted</div>
+      <div class="sb-item" onclick="filterByDecision('SHORTLIST')"><span class="icon">🔵</span> Shortlisted</div>
+      <div class="sb-item" onclick="filterByDecision('WAITLIST')"><span class="icon">🟠</span> Waitlisted</div>
+      <div class="sb-item" onclick="filterByDecision('DECLINE')"><span class="icon">❌</span> Declined</div>
+    </div>
+    <div class="sb-footer">
+      <button class="logout-btn" onclick="doLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="main-topbar">
+      <div class="topbar-title" id="view-title">All Applications</div>
+      <div class="topbar-actions">
+        <button class="tb-btn" onclick="refreshData()">↻ Refresh</button>
+        <button class="tb-btn" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="tb-btn primary" onclick="clearFilter()">Show All</button>
+      </div>
+    </div>
+
+    <div class="main-content">
+
+      <!-- ── APPLICATIONS VIEW ── -->
+      <div class="view active" id="view-applications">
+
+        <!-- Stats -->
+        <div class="stats-row" id="stats-row">
+          <div class="stat-card"><div class="sc-label">Total Applications</div><div class="sc-val" id="st-total">0</div><div class="sc-sub">All submissions</div></div>
+          <div class="stat-card"><div class="sc-label">Accept</div><div class="sc-val" id="st-accept">0</div><div class="sc-sub">Score ≥ 80</div></div>
+          <div class="stat-card"><div class="sc-label">Shortlist</div><div class="sc-val" id="st-short">0</div><div class="sc-sub">Score 65–79</div></div>
+          <div class="stat-card"><div class="sc-label">Waitlist</div><div class="sc-val" id="st-wait">0</div><div class="sc-sub">Score 50–64</div></div>
+          <div class="stat-card"><div class="sc-label">Declined</div><div class="sc-val" id="st-dec">0</div><div class="sc-sub">Below 50 / Ethics fail</div></div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="setFilter('ALL',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('ACCEPT',this)">Accept</button>
+          <button class="filter-btn" onclick="setFilter('SHORTLIST',this)">Shortlist</button>
+          <button class="filter-btn" onclick="setFilter('WAITLIST',this)">Waitlist</button>
+          <button class="filter-btn" onclick="setFilter('DECLINE',this)">Decline</button>
+          <button class="filter-btn" onclick="setFilter('AUTO-DECLINE',this)">Auto-Decline</button>
+          <input class="search-box" type="text" placeholder="Search name, business, industry..." oninput="searchTable(this.value)" id="search-input">
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrap">
+          <div class="table-scroll">
+            <table id="app-table">
+              <thead>
+                <tr>
+                  <th>Ref</th>
+                  <th>Name</th>
+                  <th>Business</th>
+                  <th>Industry</th>
+                  <th>Revenue</th>
+                  <th>Location</th>
+                  <th>Score</th>
+                  <th>Decision</th>
+                  <th>Submitted</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+          <div class="empty-state hidden" id="empty-state">
+            <div class="es-icon">📭</div>
+            <div>No applications found.</div>
+            <div style="font-size:12px;color:var(--grey);margin-top:6px;">Submissions from the screening form will appear here.</div>
+          </div>
+        </div>
+
+      </div><!-- /applications view -->
+
+      <!-- ── ANALYTICS VIEW ── -->
+      <div class="view" id="view-analytics">
+        <div class="analytics-grid">
+          <div class="chart-card">
+            <div class="chart-title">Decision Distribution</div>
+            <div class="bar-chart" id="chart-decisions"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Industry Breakdown</div>
+            <div class="bar-chart" id="chart-industries"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Revenue Stage</div>
+            <div class="bar-chart" id="chart-revenue"></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Location Distribution</div>
+            <div class="bar-chart" id="chart-location"></div>
+          </div>
+        </div>
+        <div class="chart-card" style="margin-bottom:16px;">
+          <div class="chart-title">Score Range Distribution</div>
+          <div class="bar-chart" id="chart-scores"></div>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /main -->
+
+</div><!-- /app -->
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="detail-overlay" onclick="if(event.target===this)closeDetail()">
+  <div class="detail-panel" id="detail-panel">
+    <div class="dp-header">
+      <div class="dp-title" id="dp-title">Application Detail</div>
+      <button class="dp-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="dp-body" id="dp-body"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// AUTH — simple password gate (change before deploy)
+// ══════════════════════════════════════════════════════
+const ADMIN_CREDS = { user: 'cfhadmin', pass: 'Clux@2026!' };
+
+function doLogin() {
+  const u = document.getElementById('lg-user').value.trim();
+  const p = document.getElementById('lg-pass').value;
+  if (u === ADMIN_CREDS.user && p === ADMIN_CREDS.pass) {
+    document.getElementById('login-wall').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    loadData();
+  } else {
+    const err = document.getElementById('login-err');
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+function doLogout() {
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('login-wall').classList.remove('hidden');
+  document.getElementById('lg-pass').value = '';
+}
+
+// ══════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════
+let allSubmissions = [];
+let currentFilter = 'ALL';
+
+function loadData() {
+  allSubmissions = JSON.parse(localStorage.getItem('cfh_submissions') || '[]');
+  // Sort by newest first
+  allSubmissions.sort((a,b) => new Date(b.submitted_at) - new Date(a.submitted_at));
+  renderStats();
+  renderTable(allSubmissions);
+  if (document.getElementById('view-analytics').classList.contains('active')) renderAnalytics();
+}
+
+function refreshData() { loadData(); }
+
+// ══════════════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════════════
+function renderStats() {
+  const s = allSubmissions;
+  document.getElementById('st-total').textContent = s.length;
+  document.getElementById('st-accept').textContent = s.filter(x => x.score.decision === 'ACCEPT').length;
+  document.getElementById('st-short').textContent = s.filter(x => x.score.decision === 'SHORTLIST').length;
+  document.getElementById('st-wait').textContent = s.filter(x => x.score.decision === 'WAITLIST').length;
+  document.getElementById('st-dec').textContent = s.filter(x => ['DECLINE','AUTO-DECLINE'].includes(x.score.decision)).length;
+}
+
+// ══════════════════════════════════════════════════════
+// TABLE
+// ══════════════════════════════════════════════════════
+function renderTable(data) {
+  const tbody = document.getElementById('table-body');
+  const empty = document.getElementById('empty-state');
+  tbody.innerHTML = '';
+
+  if (!data.length) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  data.forEach((sub, idx) => {
+    const d = sub.data;
+    const sc = sub.score;
+    const tr = document.createElement('tr');
+    tr.onclick = () => openDetail(sub);
+
+    const scoreColor = sc.total >= 80 ? 'var(--g)' : sc.total >= 65 ? 'var(--b)' : sc.total >= 50 ? 'var(--o)' : 'var(--m)';
+    const decBadge = decisionBadge(sc.decision);
+    const revLabel = { yes_consistent:'Consistent', yes_occasional:'Occasional', not_yet:'Pre-revenue' };
+    const locLabel = { yes_local:'Ajah/Lagos', can_commute:'Nearby', not_local:'Outside area' };
+    const date = new Date(sub.submitted_at).toLocaleDateString('en-NG', { day:'2-digit', month:'short' });
+
+    tr.innerHTML = `
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grey);">${sub.ref || '—'}</span></td>
+      <td><strong style="color:#fff;">${esc(d.name || '—')}</strong></td>
+      <td style="color:rgba(255,255,255,.7);">${esc(d.biz_name || '—')}</td>
+      <td><span style="font-size:12px;color:rgba(255,255,255,.55);">${industryLabel(d.industry)}</span></td>
+      <td><span style="font-size:11px;">${revLabel[d.revenue] || '—'}</span></td>
+      <td><span style="font-size:11px;">${locLabel[d.location] || '—'}</span></td>
+      <td>
+        <div class="score-bar-wrap">
+          <span class="score-num" style="color:${scoreColor};">${sc.total}</span>
+          <div class="score-bar"><div class="score-fill" style="width:${sc.total}%;background:${scoreColor};"></div></div>
+        </div>
+      </td>
+      <td>${decBadge}</td>
+      <td><span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--grey);">${date}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function decisionBadge(decision) {
+  const map = {
+    'ACCEPT': '<span class="badge badge-accept">✓ Accept</span>',
+    'SHORTLIST': '<span class="badge badge-shortlist">◉ Shortlist</span>',
+    'WAITLIST': '<span class="badge badge-waitlist">◌ Waitlist</span>',
+    'DECLINE': '<span class="badge badge-decline">✗ Decline</span>',
+    'AUTO-DECLINE': '<span class="badge badge-autodecline">⊘ Auto-Decline</span>',
+  };
+  return map[decision] || decision;
+}
+
+function industryLabel(val) {
+  const m = { tech:'Tech/Software', realestate:'Real Estate', legal:'Legal', accounting:'Accounting & Tax', logistics:'Logistics', hr:'HR/Consulting', creative:'Creative/Media', ecommerce:'E-commerce', health:'Health & Wellness', finance:'Finance/Fintech', education:'Education', other:'Other' };
+  return m[val] || val || '—';
+}
+
+function esc(s) { return String(s).replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ══════════════════════════════════════════════════════
+// FILTERS & SEARCH
+// ══════════════════════════════════════════════════════
+function setFilter(decision, btn) {
+  currentFilter = decision;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function filterByDecision(decision) {
+  currentFilter = decision;
+  showView('applications', document.querySelector('.sb-item'));
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent.trim().toLowerCase() === decision.toLowerCase());
+  });
+  applyFilters();
+}
+
+function clearFilter() {
+  currentFilter = 'ALL';
+  document.getElementById('search-input').value = '';
+  document.querySelectorAll('.filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
+  applyFilters();
+}
+
+function searchTable(q) { applyFilters(q); }
+
+function applyFilters(q = document.getElementById('search-input').value) {
+  let filtered = allSubmissions;
+  if (currentFilter !== 'ALL') filtered = filtered.filter(s => s.score.decision === currentFilter);
+  if (q.trim()) {
+    const lq = q.toLowerCase();
+    filtered = filtered.filter(s =>
+      (s.data.name||'').toLowerCase().includes(lq) ||
+      (s.data.biz_name||'').toLowerCase().includes(lq) ||
+      (s.data.industry||'').toLowerCase().includes(lq) ||
+      (s.data.email||'').toLowerCase().includes(lq) ||
+      (s.ref||'').toLowerCase().includes(lq)
+    );
+  }
+  renderTable(filtered);
+}
+
+// ══════════════════════════════════════════════════════
+// DETAIL PANEL
+// ══════════════════════════════════════════════════════
+function openDetail(sub) {
+  const d = sub.data;
+  const sc = sub.score;
+  document.getElementById('dp-title').textContent = esc(d.biz_name || d.name || 'Application Detail');
+  document.getElementById('detail-overlay').classList.add('open');
+
+  const scoreColor = sc.total >= 80 ? 'var(--g)' : sc.total >= 65 ? 'var(--b)' : sc.total >= 50 ? 'var(--o)' : 'var(--m)';
+
+  const flagsHtml = sc.flags && sc.flags.length
+    ? sc.flags.map(f => `<span class="flag-chip">⚑ ${esc(f)}</span>`).join('')
+    : '<span class="no-flags">✓ No flags raised</span>';
+
+  const checks = (arr) => (arr||[]).map(x => `<span class="dp-tag">${esc(x)}</span>`).join('') || '<span style="color:var(--grey);font-size:12px;">None selected</span>';
+
+  document.getElementById('dp-body').innerHTML = `
+    <!-- Score Summary -->
+    <div class="score-summary">
+      <div class="ss-total">
+        <div>
+          <div class="ss-total-num" style="color:${scoreColor};">${sc.total}<span style="font-size:20px;color:var(--grey);">/100</span></div>
+          <div class="ss-total-label">Total Score</div>
+        </div>
+        ${decisionBadge(sc.decision)}
+      </div>
+      <div class="ss-breakdown">
+        <div class="ss-item"><div class="ss-item-label">Revenue (25)</div><div class="ss-item-val" style="color:var(--m);">${sc.breakdown.revenue||0}</div></div>
+        <div class="ss-item"><div class="ss-item-label">Professionalism (20)</div><div class="ss-item-val" style="color:var(--o);">${sc.breakdown.professionalism||0}</div></div>
+        <div class="ss-item"><div class="ss-item-label">Collaboration (20)</div><div class="ss-item-val" style="color:var(--b);">${sc.breakdown.collaboration||0}</div></div>
+        <div class="ss-item"><div class="ss-item-label">Vision (20)</div><div class="ss-item-val" style="color:var(--p);">${sc.breakdown.vision||0}</div></div>
+        <div class="ss-item"><div class="ss-item-label">Fit & Geography (15)</div><div class="ss-item-val" style="color:var(--g);">${sc.breakdown.fit||0}</div></div>
+        <div class="ss-item"><div class="ss-item-label">Ethics</div><div class="ss-item-val" style="color:${sc.breakdown.ethics==='PASS'?'var(--g)':'var(--m)'};">${sc.breakdown.ethics}</div></div>
+      </div>
+      <!-- Flags -->
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.06);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--grey);margin-bottom:8px;">Flags</div>
+        <div class="flags-row">${flagsHtml}</div>
+      </div>
+    </div>
+
+    <!-- Personal -->
+    <div class="dp-section">
+      <div class="dp-section-title">Personal Details</div>
+      <div class="dp-field"><div class="dp-field-label">Full Name</div><div class="dp-field-val">${esc(d.name||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Email</div><div class="dp-field-val">${esc(d.email||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">WhatsApp</div><div class="dp-field-val">${esc(d.phone||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Role</div><div class="dp-field-val">${esc(d.role||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Source</div><div class="dp-field-val">${esc(d.source||'—')}</div></div>
+    </div>
+
+    <!-- Business -->
+    <div class="dp-section">
+      <div class="dp-section-title">Business Details</div>
+      <div class="dp-field"><div class="dp-field-label">Business Name</div><div class="dp-field-val"><strong style="color:#fff;">${esc(d.biz_name||'—')}</strong></div></div>
+      <div class="dp-field"><div class="dp-field-label">Industry</div><div class="dp-field-val">${industryLabel(d.industry)}${d.industry_other?' — '+esc(d.industry_other):''}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Website / Social</div><div class="dp-field-val">${esc(d.website||'Not provided')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Business Age</div><div class="dp-field-val">${esc(d.biz_age||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Team Size</div><div class="dp-field-val">${esc(d.team_size||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Business Description</div><div class="dp-field-val long">${esc(d.biz_desc||'—')}</div></div>
+    </div>
+
+    <!-- Revenue -->
+    <div class="dp-section">
+      <div class="dp-section-title">Revenue & Operations</div>
+      <div class="dp-field"><div class="dp-field-label">Revenue Status</div><div class="dp-field-val">${esc(d.revenue||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Monthly Revenue Range</div><div class="dp-field-val">${esc(d.rev_range||'Not provided')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Current Challenge</div><div class="dp-field-val long">${esc(d.challenge||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Business Structure</div><div>${checks(d.structure_items)}</div></div>
+    </div>
+
+    <!-- Fit -->
+    <div class="dp-section">
+      <div class="dp-section-title">Ecosystem Fit</div>
+      <div class="dp-field"><div class="dp-field-label">Why This Ecosystem</div><div class="dp-field-val long">${esc(d.why||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Value to Ecosystem</div><div class="dp-field-val long">${esc(d.value||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Collaboration Approach</div><div class="dp-field-val">${esc(d.approach||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Structure Self-Score</div><div class="dp-field-val">${d.structure_score||'—'} / 10</div></div>
+      <div class="dp-field"><div class="dp-field-label">Location</div><div class="dp-field-val">${esc(d.location||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Ethics Declaration</div><div class="dp-field-val">${esc(d.ethics||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Prohibited Activity Flags</div><div>${checks(d.prohibited)}</div></div>
+    </div>
+
+    <!-- Vision -->
+    <div class="dp-section">
+      <div class="dp-section-title">Vision & Final</div>
+      <div class="dp-field"><div class="dp-field-label">12-Month Vision</div><div class="dp-field-val long">${esc(d.vision||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Primary Reason for Applying</div><div class="dp-field-val long">${esc(d.primary_reason||'Not provided')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Benefits Most Excited About</div><div>${checks(d.benefits)}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Additional Notes</div><div class="dp-field-val long">${esc(d.extra||'Not provided')}</div></div>
+    </div>
+
+    <!-- Meta -->
+    <div class="dp-section">
+      <div class="dp-section-title">Application Meta</div>
+      <div class="dp-field"><div class="dp-field-label">Reference</div><div class="dp-field-val" style="font-family:'JetBrains Mono',monospace;color:var(--m);">${esc(sub.ref||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Payment Reference</div><div class="dp-field-val" style="font-family:'JetBrains Mono',monospace;">${esc(d.payment_ref||'—')}</div></div>
+      <div class="dp-field"><div class="dp-field-label">Submitted At</div><div class="dp-field-val">${new Date(sub.submitted_at).toLocaleString('en-NG')}</div></div>
+    </div>
+
+    <!-- Decision Actions -->
+    <div class="dp-section">
+      <div class="dp-section-title">Override Decision</div>
+      <div style="font-size:12px;color:var(--grey);margin-bottom:10px;">Override the computed decision and save a manual decision for this application.</div>
+      <div class="decision-actions">
+        <button class="dec-btn dec-accept" onclick="overrideDecision('${sub.ref}','ACCEPT')">✓ Accept</button>
+        <button class="dec-btn dec-shortlist" onclick="overrideDecision('${sub.ref}','SHORTLIST')">◉ Shortlist</button>
+        <button class="dec-btn dec-waitlist" onclick="overrideDecision('${sub.ref}','WAITLIST')">◌ Waitlist</button>
+        <button class="dec-btn dec-decline" onclick="overrideDecision('${sub.ref}','DECLINE')">✗ Decline</button>
+      </div>
+    </div>
+  `;
+}
+
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+}
+
+// ══════════════════════════════════════════════════════
+// OVERRIDE DECISION
+// ══════════════════════════════════════════════════════
+function overrideDecision(ref, decision) {
+  const subs = JSON.parse(localStorage.getItem('cfh_submissions') || '[]');
+  const idx = subs.findIndex(s => s.ref === ref);
+  if (idx >= 0) {
+    subs[idx].score.decision = decision;
+    subs[idx].score.manual_override = true;
+    subs[idx].score.override_at = new Date().toISOString();
+    localStorage.setItem('cfh_submissions', JSON.stringify(subs));
+    loadData();
+    closeDetail();
+    showToast('Decision updated to: ' + decision);
+  }
+}
+
+// ══════════════════════════════════════════════════════
+// ANALYTICS
+// ══════════════════════════════════════════════════════
+function showView(view, clickedItem) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + view).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  if (clickedItem) clickedItem.classList.add('active');
+  document.getElementById('view-title').textContent = view === 'applications' ? 'All Applications' : 'Analytics';
+  if (view === 'analytics') renderAnalytics();
+}
+
+function renderAnalytics() {
+  const data = allSubmissions;
+  if (!data.length) return;
+
+  // Decision chart
+  const decisions = { ACCEPT:0, SHORTLIST:0, WAITLIST:0, DECLINE:0, 'AUTO-DECLINE':0 };
+  data.forEach(s => { if (decisions[s.score.decision] !== undefined) decisions[s.score.decision]++; });
+  renderBarChart('chart-decisions', decisions, { ACCEPT:'var(--g)', SHORTLIST:'var(--b)', WAITLIST:'var(--o)', DECLINE:'var(--m)', 'AUTO-DECLINE':'#FF6B9D' });
+
+  // Industry
+  const industries = {};
+  data.forEach(s => { const i = industryLabel(s.data.industry); industries[i] = (industries[i]||0)+1; });
+  renderBarChart('chart-industries', industries);
+
+  // Revenue
+  const revMap = { yes_consistent:'Consistent', yes_occasional:'Occasional', not_yet:'Pre-revenue' };
+  const revs = {};
+  data.forEach(s => { const r = revMap[s.data.revenue]||s.data.revenue||'Unknown'; revs[r]=(revs[r]||0)+1; });
+  renderBarChart('chart-revenue', revs, { Consistent:'var(--g)', Occasional:'var(--b)', 'Pre-revenue':'var(--m)' });
+
+  // Location
+  const locMap = { yes_local:'Ajah/Lagos', can_commute:'Nearby', not_local:'Outside area' };
+  const locs = {};
+  data.forEach(s => { const l = locMap[s.data.location]||'Unknown'; locs[l]=(locs[l]||0)+1; });
+  renderBarChart('chart-location', locs, { 'Ajah/Lagos':'var(--g)', 'Nearby':'var(--b)', 'Outside area':'var(--m)' });
+
+  // Score bands
+  const bands = { '80–100':0, '65–79':0, '50–64':0, '35–49':0, '0–34':0 };
+  data.forEach(s => {
+    const t = s.score.total;
+    if (t >= 80) bands['80–100']++;
+    else if (t >= 65) bands['65–79']++;
+    else if (t >= 50) bands['50–64']++;
+    else if (t >= 35) bands['35–49']++;
+    else bands['0–34']++;
+  });
+  renderBarChart('chart-scores', bands, { '80–100':'var(--g)', '65–79':'var(--b)', '50–64':'var(--o)', '35–49':'var(--m)', '0–34':'#FF6B9D' });
+}
+
+function renderBarChart(elId, data, colors = {}) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  const max = Math.max(...Object.values(data), 1);
+  const defaultColors = ['var(--m)','var(--o)','var(--b)','var(--g)','var(--p)','var(--y)'];
+  let i = 0;
+  el.innerHTML = Object.entries(data).map(([label, val]) => {
+    const color = colors[label] || defaultColors[i++ % defaultColors.length];
+    const pct = Math.round((val / max) * 100);
+    return `<div class="bc-row">
+      <div class="bc-label">${esc(label)}</div>
+      <div class="bc-bar-wrap"><div class="bc-bar" style="width:${pct}%;background:${color};"><span class="bc-bar-val">${val}</span></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// EXPORT CSV
+// ══════════════════════════════════════════════════════
+function exportCSV() {
+  if (!allSubmissions.length) { showToast('No submissions to export.'); return; }
+
+  const headers = ['Ref','Name','Email','Phone','Role','Business Name','Industry','Website','Biz Age','Team','Revenue','Rev Range','Location','Ethics','Approach','Structure Score','Total Score','Revenue Score','Professionalism Score','Collaboration Score','Vision Score','Fit Score','Ethics Result','Decision','Flags','Submitted At','Payment Ref'];
+
+  const rows = allSubmissions.map(s => {
+    const d = s.data; const sc = s.score;
+    return [
+      s.ref, d.name, d.email, d.phone, d.role, d.biz_name, d.industry, d.website||'',
+      d.biz_age, d.team_size, d.revenue, d.rev_range||'', d.location, d.ethics, d.approach,
+      d.structure_score||'', sc.total,
+      sc.breakdown.revenue||0, sc.breakdown.professionalism||0, sc.breakdown.collaboration||0,
+      sc.breakdown.vision||0, sc.breakdown.fit||0, sc.breakdown.ethics,
+      sc.decision, (sc.flags||[]).join('; '), s.submitted_at, d.payment_ref||''
+    ].map(v => '"' + String(v||'').replace(/"/g,'""') + '"');
+  });
+
+  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'CFH_Applications_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ══════════════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════════════
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:var(--ink3);border:1px solid rgba(255,255,255,.1);color:#fff;padding:12px 20px;font-size:13px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.4);font-family:Plus Jakarta Sans,sans-serif;border-radius:2px;transition:opacity .3s;';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 3000);
+}
+
+// Load sample data for demo if empty
+window.addEventListener('load', () => {
+  // Allow pressing Enter on username field
+  document.getElementById('lg-user').addEventListener('keydown', e => {
+    if (e.key === 'Enter') document.getElementById('lg-pass').focus();
+  });
+});
+</script>
+</body>
+</html>
